@@ -1,10 +1,10 @@
 {
-  "name": "cetha-ui-workspace",
+  "name": "cetha-workspace",
   "private": true,
   "version": "0.1.0",
   "type": "module",
   "packageManager": "npm@10.9.8",
-  "repository": "github:charvesta/cetha-ui",
+  "repository": "github:charvesta/cetha",
   "engines": {
     "node": ">=22.12.0"
   },

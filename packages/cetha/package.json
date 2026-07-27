@@ -7,11 +7,11 @@
   "author": "Charvesta",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/charvesta/cetha-ui.git",
+    "url": "git+https://github.com/charvesta/cetha.git",
     "directory": "packages/cetha"
   },
-  "homepage": "https://github.com/charvesta/cetha-ui#readme",
-  "bugs": "https://github.com/charvesta/cetha-ui/issues",
+  "homepage": "https://github.com/charvesta/cetha#readme",
+  "bugs": "https://github.com/charvesta/cetha/issues",
   "keywords": [
     "astro",
     "astro-component",
