@@ -1,0 +1,20 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'textarea'> {
+  invalid?: boolean;
+  value?: string | number;
+}
+
+const { invalid = false, value = '', class: className, ...attrs } = Astro.props;
+---
+
+<textarea
+  class:list={[
+    'cetha-focus min-h-24 w-full resize-y rounded-cetha-md border bg-cetha-surface px-3 py-2 text-sm leading-6 text-cetha-text-strong placeholder:text-cetha-text-inactive disabled:cursor-not-allowed disabled:bg-cetha-control',
+    invalid ? 'border-cetha-danger' : 'border-cetha-line hover:border-cetha-line-strong',
+    className,
+  ]}
+  aria-invalid={invalid ? 'true' : undefined}
+  {...attrs}
+>{value}</textarea>

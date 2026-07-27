@@ -1,0 +1,16 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'fieldset'> {
+  legend: string;
+  description?: string;
+}
+
+const { legend, description, class: className, ...attrs } = Astro.props;
+---
+
+<fieldset class:list={['grid gap-3', className]} {...attrs}>
+  <legend class="text-sm font-medium text-cetha-text-strong">{legend}</legend>
+  {description && <p class="-mt-2 text-xs leading-5 text-cetha-text-subtle">{description}</p>}
+  <slot />
+</fieldset>

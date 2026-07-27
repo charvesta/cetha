@@ -1,0 +1,25 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Variant = 'heading1' | 'heading2' | 'heading3' | 'body' | 'bodyStrong' | 'caption' | 'mono';
+type Element = 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'span' | 'div';
+
+interface Props extends HTMLAttributes<'p'> {
+  as?: Element;
+  variant?: Variant;
+}
+
+const { as = 'p', variant = 'body', class: className, ...attrs } = Astro.props;
+const Tag = as;
+const variants: Record<Variant, string> = {
+  heading1: 'text-3xl font-semibold leading-tight text-cetha-text-strong',
+  heading2: 'text-2xl font-semibold leading-tight text-cetha-text-strong',
+  heading3: 'text-lg font-semibold leading-snug text-cetha-text-strong',
+  body: 'text-sm leading-6 text-cetha-text',
+  bodyStrong: 'text-sm font-medium leading-6 text-cetha-text-strong',
+  caption: 'text-xs leading-5 text-cetha-text-subtle',
+  mono: 'font-mono text-xs leading-5 text-cetha-text',
+};
+---
+
+<Tag class:list={[variants[variant], className]} {...attrs}><slot /></Tag>

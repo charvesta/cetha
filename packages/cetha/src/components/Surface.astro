@@ -1,0 +1,22 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Element = 'div' | 'section' | 'article' | 'aside';
+type Level = 'base' | 'surface' | 'raised';
+
+interface Props extends HTMLAttributes<'div'> {
+  as?: Element;
+  level?: Level;
+  bordered?: boolean;
+}
+
+const { as = 'div', level = 'surface', bordered = false, class: className, ...attrs } = Astro.props;
+const Tag = as;
+const levels: Record<Level, string> = {
+  base: 'bg-cetha-base',
+  surface: 'bg-cetha-surface',
+  raised: 'bg-cetha-raised shadow-cetha',
+};
+---
+
+<Tag class:list={['rounded-cetha-lg text-cetha-text', levels[level], bordered && 'border border-cetha-line', className]} {...attrs}><slot /></Tag>

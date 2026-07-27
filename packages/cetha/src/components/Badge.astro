@@ -1,0 +1,17 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Tone = 'neutral' | 'info' | 'success' | 'warning' | 'danger';
+interface Props extends HTMLAttributes<'span'> { tone?: Tone; }
+
+const { tone = 'neutral', class: className, ...attrs } = Astro.props;
+const tones: Record<Tone, string> = {
+  neutral: 'bg-cetha-control text-cetha-text',
+  info: 'bg-cetha-info-soft text-cetha-info',
+  success: 'bg-cetha-success-soft text-cetha-success',
+  warning: 'bg-cetha-warning-soft text-cetha-warning',
+  danger: 'bg-cetha-danger-soft text-cetha-danger',
+};
+---
+
+<span class:list={['inline-flex min-h-6 items-center rounded-full px-2 py-0.5 text-xs font-medium', tones[tone], className]} {...attrs}><slot /></span>

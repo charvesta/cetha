@@ -1,0 +1,22 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'div'> {
+  id: string;
+  label: string;
+  description?: string;
+  error?: string;
+  required?: boolean;
+}
+
+const { id, label, description, error, required = false, class: className, ...attrs } = Astro.props;
+---
+
+<div class:list={['grid gap-1.5', className]} data-cetha-field {...attrs}>
+  <label class="text-sm font-medium text-cetha-text-strong" for={id}>
+    {label}{required && <span class="ml-1 text-cetha-danger" aria-hidden="true">*</span>}
+  </label>
+  {description && <p id={`${id}-description`} class="text-xs leading-5 text-cetha-text-subtle">{description}</p>}
+  <slot />
+  {error && <p id={`${id}-error`} class="text-xs leading-5 text-cetha-danger" role="alert">{error}</p>}
+</div>

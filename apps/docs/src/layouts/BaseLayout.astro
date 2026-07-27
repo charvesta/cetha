@@ -1,0 +1,42 @@
+---
+import '@charvesta/cetha/styles';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Astro-native, SSR-safe interface components.' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f8fa" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--cetha-base);
+    color: var(--cetha-text);
+    font-family: "Plus Jakarta Sans", Inter, system-ui, sans-serif;
+  }
+  button, input, textarea, select { font: inherit; }
+  a { color: inherit; }
+  code { font-family: "IBM Plex Mono", monospace; }
+  ::selection { background: var(--cetha-brand-soft); color: var(--cetha-brand-strong); }
+</style>

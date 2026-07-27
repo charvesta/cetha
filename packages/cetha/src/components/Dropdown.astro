@@ -1,0 +1,34 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Icon from './Icon.astro';
+
+interface Props extends HTMLAttributes<'details'> {
+  id: string;
+  align?: 'start' | 'end';
+}
+
+const { id, align = 'start', class: className, ...attrs } = Astro.props;
+---
+
+<details id={id} class:list={['group relative inline-block', className]} data-cetha-dropdown {...attrs}>
+  <summary
+    class="cetha-focus flex min-h-9 cursor-pointer list-none items-center gap-2 rounded-cetha-md border border-cetha-line bg-cetha-surface px-3 py-2 text-sm font-medium text-cetha-text-strong hover:bg-cetha-control [&::-webkit-details-marker]:hidden"
+    aria-haspopup="menu"
+    aria-controls={`${id}-menu`}
+  >
+    <slot name="trigger" />
+    <Icon name="chevronDown" size={16} class="transition-transform group-open:rotate-180" />
+  </summary>
+  <div class:list={[
+    'absolute z-50 mt-1 min-w-48 rounded-cetha-md border border-cetha-line bg-cetha-raised p-1 shadow-cetha',
+    align === 'end' ? 'right-0' : 'left-0',
+  ]} id={`${id}-menu`} role="menu">
+    <slot />
+  </div>
+</details>
+
+<script>
+  import { initDropdowns } from '../client/dropdown';
+  initDropdowns();
+  document.addEventListener('astro:page-load', () => initDropdowns());
+</script>

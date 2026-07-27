@@ -1,0 +1,28 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'button'> {
+  tabsId: string;
+  value: string;
+  active?: boolean;
+}
+
+const { tabsId, value, active = false, class: className, ...attrs } = Astro.props;
+---
+
+<button
+  id={`${tabsId}-tab-${value}`}
+  type="button"
+  class:list={[
+    'cetha-focus -mb-px min-h-10 shrink-0 border-b-2 px-3 py-2 text-sm font-medium',
+    active ? 'border-cetha-brand text-cetha-brand' : 'border-transparent text-cetha-text-subtle hover:text-cetha-text-strong',
+    className,
+  ]}
+  role="tab"
+  aria-controls={`${tabsId}-panel-${value}`}
+  aria-selected={active}
+  tabindex={active ? 0 : -1}
+  data-cetha-tab
+  data-value={value}
+  {...attrs}
+><slot /></button>

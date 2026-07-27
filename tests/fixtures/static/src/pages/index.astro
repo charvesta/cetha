@@ -1,0 +1,18 @@
+---
+import { Badge, Button, Field, Input, Table, Text } from '@charvesta/cetha';
+import '@charvesta/cetha/styles';
+---
+
+<!doctype html>
+<html lang="en">
+  <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /><title>Cetha static fixture</title></head>
+  <body>
+    <main>
+      <Text as="h1" variant="heading1">Cetha static fixture</Text>
+      <Badge tone="success">Static</Badge>
+      <Field id="email" label="Email"><Input id="email" name="email" type="email" /></Field>
+      <Button>Save</Button>
+      <Table caption="Resources"><tr slot="head"><th scope="col">Name</th></tr><tr><td>Production</td></tr></Table>
+    </main>
+  </body>
+</html>

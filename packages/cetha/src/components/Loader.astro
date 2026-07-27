@@ -1,0 +1,11 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'span'> { label?: string; size?: 'sm' | 'md'; }
+const { label = 'Loading', size = 'md', class: className, ...attrs } = Astro.props;
+---
+
+<span class:list={['inline-flex items-center gap-2 text-sm text-cetha-text-subtle', className]} role="status" {...attrs}>
+  <span class:list={['animate-spin rounded-full border-2 border-cetha-line-strong border-r-cetha-brand', size === 'sm' ? 'h-4 w-4' : 'h-5 w-5']} aria-hidden="true"></span>
+  <span class="sr-only">{label}</span>
+</span>

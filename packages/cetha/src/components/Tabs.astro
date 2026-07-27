@@ -1,0 +1,24 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'div'> {
+  id: string;
+  value: string;
+  label: string;
+}
+
+const { id, value, label, class: className, ...attrs } = Astro.props;
+---
+
+<div id={id} class:list={['min-w-0', className]} data-cetha-tabs data-value={value} {...attrs}>
+  <div class="flex gap-1 overflow-x-auto border-b border-cetha-line" role="tablist" aria-label={label}>
+    <slot name="list" />
+  </div>
+  <div class="pt-5"><slot /></div>
+</div>
+
+<script>
+  import { initTabs } from '../client/tabs';
+  initTabs();
+  document.addEventListener('astro:page-load', () => initTabs());
+</script>

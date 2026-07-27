@@ -1,0 +1,84 @@
+{
+  "name": "@charvesta/cetha",
+  "version": "0.1.0",
+  "description": "Astro-native, SSR-safe UI components for product interfaces.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Charvesta",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/charvesta/cetha-ui.git",
+    "directory": "packages/cetha"
+  },
+  "homepage": "https://github.com/charvesta/cetha-ui#readme",
+  "bugs": "https://github.com/charvesta/cetha-ui/issues",
+  "keywords": [
+    "astro",
+    "astro-component",
+    "design-system",
+    "ssr",
+    "accessible"
+  ],
+  "files": [
+    "src",
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": [
+    "**/*.astro",
+    "**/*.css"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles": "./dist/styles.css",
+    "./client/password-input": "./src/client/password-input.ts",
+    "./client/dialog": "./src/client/dialog.ts",
+    "./client/dropdown": "./src/client/dropdown.ts",
+    "./client/tabs": "./src/client/tabs.ts",
+    "./client/sidebar": "./src/client/sidebar.ts",
+    "./client/toast": "./src/client/toast.ts",
+    "./client/data-table": "./src/client/data-table.ts",
+    "./text": "./src/components/Text.astro",
+    "./icon": "./src/components/Icon.astro",
+    "./button": "./src/components/Button.astro",
+    "./link": "./src/components/Link.astro",
+    "./surface": "./src/components/Surface.astro",
+    "./divider": "./src/components/Divider.astro",
+    "./badge": "./src/components/Badge.astro",
+    "./field": "./src/components/Field.astro",
+    "./input": "./src/components/Input.astro",
+    "./password-input": "./src/components/PasswordInput.astro",
+    "./textarea": "./src/components/Textarea.astro",
+    "./select": "./src/components/Select.astro",
+    "./checkbox": "./src/components/Checkbox.astro",
+    "./switch": "./src/components/Switch.astro",
+    "./radio-group": "./src/components/RadioGroup.astro",
+    "./alert": "./src/components/Alert.astro",
+    "./loader": "./src/components/Loader.astro",
+    "./skeleton": "./src/components/Skeleton.astro",
+    "./empty-state": "./src/components/EmptyState.astro",
+    "./dialog": "./src/components/Dialog.astro",
+    "./dropdown": "./src/components/Dropdown.astro",
+    "./tabs": "./src/components/Tabs.astro",
+    "./tab": "./src/components/Tab.astro",
+    "./tab-panel": "./src/components/TabPanel.astro",
+    "./sidebar": "./src/components/Sidebar.astro",
+    "./toast-region": "./src/components/ToastRegion.astro",
+    "./breadcrumbs": "./src/components/Breadcrumbs.astro",
+    "./pagination": "./src/components/Pagination.astro",
+    "./table": "./src/components/Table.astro"
+  },
+  "types": "./src/index.ts",
+  "peerDependencies": {
+    "astro": "^5.0.0 || ^6.0.0 || ^7.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tailwindcss -i ./src/styles/source.css -o ./dist/styles.css --minify",
+    "check": "astro check --root .",
+    "prepack": "npm run build"
+  }
+}

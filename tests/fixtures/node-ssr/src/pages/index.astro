@@ -1,0 +1,16 @@
+---
+import { Alert, Dialog, Text } from '@charvesta/cetha';
+import '@charvesta/cetha/styles';
+---
+
+<!doctype html>
+<html lang="en">
+  <head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /><title>Cetha SSR fixture</title></head>
+  <body>
+    <main>
+      <Text as="h1" variant="heading1">Cetha SSR fixture</Text>
+      <Alert tone="success" title="Rendered on request">The component completed server rendering.</Alert>
+      <Dialog id="fixture-dialog" title="SSR dialog" closeLabel="Close">Dialog content</Dialog>
+    </main>
+  </body>
+</html>

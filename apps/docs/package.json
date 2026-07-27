@@ -1,0 +1,16 @@
+{
+  "name": "@charvesta/cetha-docs",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "dependencies": {
+    "@charvesta/cetha": "0.1.0",
+    "astro": "^7.1.3"
+  },
+  "scripts": {
+    "build": "npm run build --workspace @charvesta/cetha && astro build",
+    "check": "astro check",
+    "dev": "npm run build --workspace @charvesta/cetha && astro dev",
+    "preview": "astro preview"
+  }
+}

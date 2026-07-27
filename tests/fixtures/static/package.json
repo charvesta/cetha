@@ -1,0 +1,7 @@
+{
+  "name": "cetha-static-fixture",
+  "private": true,
+  "type": "module",
+  "scripts": { "build": "astro build" },
+  "dependencies": { "astro": "6.1.5" }
+}

@@ -1,0 +1,21 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'section'> {
+  tabsId: string;
+  value: string;
+}
+
+const { tabsId, value, class: className, ...attrs } = Astro.props;
+---
+
+<section
+  id={`${tabsId}-panel-${value}`}
+  class:list={['focus:outline-none', className]}
+  role="tabpanel"
+  aria-labelledby={`${tabsId}-tab-${value}`}
+  tabindex="0"
+  data-cetha-tab-panel
+  data-value={value}
+  {...attrs}
+><slot /></section>

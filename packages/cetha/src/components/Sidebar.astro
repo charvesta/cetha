@@ -1,0 +1,26 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'div'> {
+  id: string;
+  label: string;
+  open?: boolean;
+}
+
+const { id, label, open = false, class: className, ...attrs } = Astro.props;
+---
+
+<div id={id} class:list={['relative', className]} data-cetha-sidebar data-open={String(open)} {...attrs}>
+  <button type="button" class="fixed inset-0 z-40 bg-[var(--cetha-overlay)] transition-opacity md:hidden" aria-label="Close navigation" data-cetha-sidebar-backdrop></button>
+  <nav class="fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-cetha-line bg-cetha-surface transition-transform md:static md:z-auto md:translate-x-0" aria-label={label} data-cetha-sidebar-panel>
+    <div class="border-b border-cetha-line px-5 py-4"><slot name="header" /></div>
+    <div class="min-h-0 flex-1 overflow-y-auto p-3"><slot /></div>
+    <div class="border-t border-cetha-line px-3 py-3"><slot name="footer" /></div>
+  </nav>
+</div>
+
+<script>
+  import { initSidebars } from '../client/sidebar';
+  initSidebars();
+  document.addEventListener('astro:page-load', () => initSidebars());
+</script>

@@ -1,0 +1,19 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'input'> {
+  id: string;
+  label: string;
+  description?: string;
+}
+
+const { id, label, description, class: className, ...attrs } = Astro.props;
+---
+
+<label class:list={['flex cursor-pointer items-start gap-3 text-sm text-cetha-text', className]} for={id}>
+  <input id={id} type="checkbox" class="cetha-focus mt-0.5 h-4 w-4 shrink-0 accent-cetha-brand" {...attrs} />
+  <span>
+    <span class="block font-medium text-cetha-text-strong">{label}</span>
+    {description && <span class="mt-0.5 block text-xs leading-5 text-cetha-text-subtle">{description}</span>}
+  </span>
+</label>

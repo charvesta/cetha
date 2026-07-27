@@ -1,0 +1,19 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'hr'> {
+  orientation?: 'horizontal' | 'vertical';
+}
+
+const { orientation = 'horizontal', class: className, ...attrs } = Astro.props;
+---
+
+<hr
+  class:list={[
+    'shrink-0 border-0 bg-cetha-line',
+    orientation === 'horizontal' ? 'h-px w-full' : 'h-full min-h-5 w-px',
+    className,
+  ]}
+  aria-orientation={orientation}
+  {...attrs}
+/>
