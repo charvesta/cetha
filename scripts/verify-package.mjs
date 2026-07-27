@@ -41,7 +41,8 @@ try {
   const server = spawn('npm', ['run', 'start'], {
     cwd: ssrFixture,
     env: { ...process.env, HOST: '127.0.0.1', PORT: '4399' },
-    stdio: 'pipe',
+    detached: process.platform !== 'win32',
+    stdio: 'ignore',
   });
   try {
     let response;
@@ -56,7 +57,15 @@ try {
     const html = await response.text();
     if (!html.includes('Cetha SSR fixture')) throw new Error('SSR response is missing expected markup');
   } finally {
-    server.kill('SIGTERM');
+    if (server.exitCode === null && server.signalCode === null) {
+      if (process.platform === 'win32') server.kill('SIGTERM');
+      else process.kill(-server.pid, 'SIGTERM');
+
+      await Promise.race([
+        new Promise((resolveExit) => server.once('exit', resolveExit)),
+        new Promise((resolveTimeout) => setTimeout(resolveTimeout, 5_000)),
+      ]);
+    }
   }
 
   process.stdout.write('Tarball verified in Astro 6 static and Astro 7 SSR fixtures.\n');
