@@ -1,12 +1,33 @@
 const boundDropdowns = new WeakSet<HTMLDetailsElement>();
+const outsidePointerDocuments = new WeakSet<Document>();
 
 function menuItems(dropdown: HTMLDetailsElement): HTMLElement[] {
   return Array.from(dropdown.querySelectorAll<HTMLElement>('[role="menuitem"]')).filter((item) => !item.hasAttribute('disabled'));
 }
 
+function resolveDocument(root?: ParentNode): Document | undefined {
+  if (!root) return typeof document === 'undefined' ? undefined : document;
+  if (root.nodeType === 9) return root as Document;
+  return root.ownerDocument ?? undefined;
+}
+
+function bindOutsidePointerListener(ownerDocument: Document): void {
+  if (outsidePointerDocuments.has(ownerDocument)) return;
+  ownerDocument.addEventListener('pointerdown', (event) => {
+    const target = event.target as Node | null;
+    if (!target || typeof target.nodeType !== 'number') return;
+    ownerDocument.querySelectorAll<HTMLDetailsElement>('details[data-cetha-dropdown][open]').forEach((dropdown) => {
+      if (!dropdown.contains(target)) dropdown.open = false;
+    });
+  });
+  outsidePointerDocuments.add(ownerDocument);
+}
+
 export function initDropdowns(root?: ParentNode): void {
-  const scope = root ?? (typeof document === 'undefined' ? undefined : document);
-  if (!scope) return;
+  const ownerDocument = resolveDocument(root);
+  const scope = root ?? ownerDocument;
+  if (!scope || !ownerDocument) return;
+  bindOutsidePointerListener(ownerDocument);
 
   scope.querySelectorAll<HTMLDetailsElement>('details[data-cetha-dropdown]').forEach((dropdown) => {
     if (boundDropdowns.has(dropdown)) return;
@@ -24,7 +45,7 @@ export function initDropdowns(root?: ParentNode): void {
 
     dropdown.addEventListener('keydown', (event) => {
       const items = menuItems(dropdown);
-      const current = items.indexOf(document.activeElement as HTMLElement);
+      const current = items.indexOf(dropdown.ownerDocument.activeElement as HTMLElement);
       if (event.key === 'Escape') {
         event.preventDefault();
         dropdown.open = false;
@@ -44,9 +65,6 @@ export function initDropdowns(root?: ParentNode): void {
       }
     });
 
-    document.addEventListener('pointerdown', (event) => {
-      if (dropdown.open && event.target instanceof Node && !dropdown.contains(event.target)) dropdown.open = false;
-    });
     boundDropdowns.add(dropdown);
   });
 }

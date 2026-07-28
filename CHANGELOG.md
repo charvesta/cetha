@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.3
+
+- Consolidated Dropdown outside-click handling into one delegated listener per
+  document, including repeated initialization and secondary documents.
+- Added shared owner-aware scroll locking for Dialog and Sidebar overlays,
+  native Dialog focus-containment coverage, and Dropdown entrance motion.
+- Added role-based elevation tokens, size-aware control radii, and loading
+  Button feedback that remains disabled while preserving the wait cursor.
+
 ## 0.1.2
 
 - Fixed Alert title alignment, Breadcrumb list markers, clickable Tabs active

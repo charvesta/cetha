@@ -57,6 +57,10 @@ compiled stylesheet, so consuming projects do not need Tailwind or a Cetha
 build plugin. Theme colors and dimensions are exposed through semantic
 `--cetha-*` custom properties.
 
+Elevation is divided into `--shadow-cetha-sm`, `--shadow-cetha-md`, and
+`--shadow-cetha-lg`; the original `--shadow-cetha` remains a compatible alias
+for the medium level.
+
 Use `data-cetha-mode="light|dark"` for luminosity and
 `data-cetha-theme="default"` for the theme identity. Form controls and buttons
 share `sm` (32px), `md` (36px, default), and `lg` (40px) density values.

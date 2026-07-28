@@ -1,6 +1,6 @@
 {
   "name": "@charvesta/cetha",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Astro-native, SSR-safe UI components for product interfaces.",
   "type": "module",
   "license": "MIT",

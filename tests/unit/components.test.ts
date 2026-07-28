@@ -14,6 +14,8 @@ import Alert from '../../packages/cetha/src/components/Alert.astro';
 import Breadcrumbs from '../../packages/cetha/src/components/Breadcrumbs.astro';
 import Tab from '../../packages/cetha/src/components/Tab.astro';
 import Sidebar from '../../packages/cetha/src/components/Sidebar.astro';
+import Dropdown from '../../packages/cetha/src/components/Dropdown.astro';
+import Surface from '../../packages/cetha/src/components/Surface.astro';
 
 describe('Cetha Astro components', () => {
   test('renders a native button with deterministic state', async () => {
@@ -101,8 +103,11 @@ describe('Cetha Astro components', () => {
     const medium = await container.renderToString(Component, { props: { 'aria-label': 'Default' }, slots: { default: 'Default' } });
     const large = await container.renderToString(Component, { props: { size: 'lg', 'aria-label': 'Large' }, slots: { default: 'Large' } });
     expect(small).toContain(smClass);
+    expect(small).toContain('rounded-cetha-sm');
     expect(medium).toContain(mdClass);
+    expect(medium).toContain('rounded-cetha-md');
     expect(large).toContain(lgClass);
+    expect(large).toContain('rounded-cetha-md');
   });
 
   test('sizes password input without changing its stable relationships', async () => {
@@ -111,8 +116,35 @@ describe('Cetha Astro components', () => {
       props: { id: 'secret', label: 'Secret', showLabel: 'Show', hideLabel: 'Hide', size: 'sm' },
     });
     expect(html).toContain('h-8');
+    expect(html).toContain('rounded-cetha-sm');
     expect(html).toContain('for="secret"');
     expect(html).toContain('data-cetha-password');
+  });
+
+  test('uses a compact radius for small textarea controls', async () => {
+    const container = await AstroContainer.create();
+    const html = await container.renderToString(Textarea, { props: { size: 'sm', 'aria-label': 'Notes' } });
+    expect(html).toContain('rounded-cetha-sm');
+  });
+
+  test('maps elevation levels to component roles while keeping the legacy alias', async () => {
+    const container = await AstroContainer.create();
+    const surface = await container.renderToString(Surface, { props: { level: 'raised' }, slots: { default: 'Surface' } });
+    const dropdown = await container.renderToString(Dropdown, { props: { id: 'actions' }, slots: { trigger: 'Actions', default: 'Menu' } });
+    const dialog = await container.renderToString(Dialog, { props: { id: 'edit', title: 'Edit', closeLabel: 'Close' } });
+    expect(surface).toContain('shadow-cetha-sm');
+    expect(dropdown).toContain('shadow-cetha-md');
+    expect(dialog).toContain('shadow-cetha-lg');
+  });
+
+  test('renders loading buttons with wait feedback and no press interaction', async () => {
+    const container = await AstroContainer.create();
+    const html = await container.renderToString(Button, { props: { loading: true }, slots: { default: 'Saving' } });
+    expect(html).toContain('cursor-wait');
+    expect(html).not.toContain('pointer-events-none');
+    expect(html).toContain('active:translate-y-0');
+    expect(html).toContain('aria-busy="true"');
+    expect(html).toContain(' disabled');
   });
 
   test('renders local Phosphor geometry without a client runtime', async () => {

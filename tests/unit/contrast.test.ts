@@ -36,4 +36,11 @@ describe('Cetha theme contrast', () => {
     expect(contrast(token(light, 'cetha-text'), token(light, 'cetha-surface'))).toBeGreaterThanOrEqual(4.5);
     expect(contrast(token(light, 'cetha-text-subtle'), token(light, 'cetha-base'))).toBeGreaterThanOrEqual(4.5);
   });
+
+  test('defines three elevation levels and a backwards-compatible default alias', () => {
+    expect(source).toContain('--shadow-cetha-sm:');
+    expect(source).toContain('--shadow-cetha-md:');
+    expect(source).toContain('--shadow-cetha-lg:');
+    expect(source).toContain('--shadow-cetha: var(--shadow-cetha-md);');
+  });
 });

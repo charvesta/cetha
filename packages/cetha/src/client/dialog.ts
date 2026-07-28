@@ -10,9 +10,11 @@ export function showDialog(id: string): boolean {
   if (typeof document === 'undefined') return false;
   const dialog = document.getElementById(id);
   if (!(dialog instanceof HTMLDialogElement)) return false;
+  initDialogs(dialog.ownerDocument);
   const active = document.activeElement;
   if (active instanceof HTMLElement) previousFocus.set(dialog, active);
   if (!dialog.open) dialog.showModal();
+  lockScroll(dialog);
   return true;
 }
 
@@ -52,6 +54,7 @@ export function initDialogs(root?: ParentNode): void {
     });
 
     dialog.addEventListener('close', () => {
+      unlockScroll(dialog);
       dialog.dispatchEvent(new CustomEvent('cetha:dialog-close', {
         bubbles: true,
         detail: { reason: dialog.returnValue },
@@ -59,6 +62,9 @@ export function initDialogs(root?: ParentNode): void {
       previousFocus.get(dialog)?.focus();
       previousFocus.delete(dialog);
     });
+    if (dialog.open) lockScroll(dialog);
     boundDialogs.add(dialog);
   });
+  syncScrollLock();
 }
+import { lockScroll, syncScrollLock, unlockScroll } from './scroll-lock';

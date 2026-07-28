@@ -20,9 +20,9 @@ const { id, align = 'start', class: className, ...attrs } = Astro.props;
     <Icon name="chevronDown" size={16} class="transition-transform group-open:rotate-180" />
   </summary>
   <div class:list={[
-    'absolute z-50 mt-1 min-w-48 rounded-cetha-md border border-cetha-line bg-cetha-raised p-1 shadow-cetha',
+    'absolute z-50 mt-1 min-w-48 rounded-cetha-md border border-cetha-line bg-cetha-raised p-1 shadow-cetha-md',
     align === 'end' ? 'right-0' : 'left-0',
-  ]} id={`${id}-menu`} role="menu">
+  ]} id={`${id}-menu`} role="menu" data-cetha-dropdown-menu>
     <slot />
   </div>
 </details>

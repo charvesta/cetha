@@ -26,3 +26,8 @@ Sidebar drawers default to `collapsible="mobile"`, `width="md"`, and
 `side="left"`. Use `collapsible="desktop|mobile|all"`, `width="sm|md|lg"`,
 `side="left|right"`, and an optional `closeLabel`. State changes emit the
 bubbling `cetha:change` event with `{ open }`.
+
+Elevation utilities are available as `shadow-cetha-sm`, `shadow-cetha-md`,
+and `shadow-cetha-lg`. The existing `shadow-cetha` utility remains an alias
+for the medium elevation. Dialog and mobile Sidebar scroll locks share owner
+tracking, so closing one overlay does not unlock another.

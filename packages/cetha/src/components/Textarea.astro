@@ -9,15 +9,15 @@ interface Props extends HTMLAttributes<'textarea'> {
 
 const { invalid = false, size = 'md', value = '', class: className, ...attrs } = Astro.props;
 const sizes = {
-  sm: 'px-2.5 py-1.5 text-xs leading-5',
-  md: 'px-3 py-2 text-sm leading-5',
-  lg: 'px-3 py-2.5 text-sm leading-6',
+  sm: 'rounded-cetha-sm px-2.5 py-1.5 text-xs leading-5',
+  md: 'rounded-cetha-md px-3 py-2 text-sm leading-5',
+  lg: 'rounded-cetha-md px-3 py-2.5 text-sm leading-6',
 } as const;
 ---
 
 <textarea
   class:list={[
-    'cetha-focus w-full resize-y rounded-cetha-md border bg-cetha-surface text-cetha-text-strong placeholder:text-cetha-text-inactive disabled:cursor-not-allowed disabled:bg-cetha-control',
+    'cetha-focus w-full resize-y border bg-cetha-surface text-cetha-text-strong placeholder:text-cetha-text-inactive disabled:cursor-not-allowed disabled:bg-cetha-control',
     sizes[size],
     invalid ? 'border-cetha-danger' : 'border-cetha-line hover:border-cetha-line-strong',
     className,

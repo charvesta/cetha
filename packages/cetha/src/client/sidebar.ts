@@ -13,9 +13,13 @@ function isCollapsedAtCurrentViewport(sidebar: HTMLElement): boolean {
 function syncBodyScrollLock(): void {
   if (typeof document === 'undefined' || typeof window === 'undefined') return;
   const mobile = window.matchMedia('(max-width: 767px)').matches;
-  const shouldLock = mobile && Array.from(document.querySelectorAll<HTMLElement>('[data-cetha-sidebar][data-open="true"]'))
-    .some((sidebar) => ['mobile', 'all'].includes(sidebar.dataset.collapsible ?? 'mobile'));
-  document.body.classList.toggle('cetha-sidebar-scroll-locked', shouldLock);
+  document.querySelectorAll<HTMLElement>('[data-cetha-sidebar]').forEach((sidebar) => {
+    const open = sidebar.dataset.open === 'true';
+    const overlaysMobile = ['mobile', 'all'].includes(sidebar.dataset.collapsible ?? 'mobile');
+    if (mobile && open && overlaysMobile) lockScroll(sidebar);
+    else unlockScroll(sidebar);
+  });
+  syncScrollLock();
 }
 
 function syncSidebarState(sidebar: HTMLElement): void {
@@ -89,3 +93,4 @@ export function initSidebars(root?: ParentNode): void {
     resizeBound = true;
   }
 }
+import { lockScroll, syncScrollLock, unlockScroll } from './scroll-lock';
