@@ -136,10 +136,45 @@
     transform: translateX(0);
   }
 
+  .cetha-sidebar-scroll-locked {
+    overflow: hidden;
+  }
+
   @media (max-width: 767px) {
-    [data-cetha-sidebar][data-cetha-enhanced="true"]:not([data-open="true"]) [data-cetha-sidebar-panel] {
+    [data-cetha-sidebar][data-collapsible="desktop"] [data-cetha-sidebar-panel] {
+      position: static;
+      z-index: auto;
+      transform: none;
+    }
+
+    [data-cetha-sidebar][data-cetha-enhanced="true"]:is([data-collapsible="mobile"], [data-collapsible="all"]):not([data-open="true"])[data-side="left"] [data-cetha-sidebar-panel] {
       transform: translateX(-100%);
     }
+
+    [data-cetha-sidebar][data-cetha-enhanced="true"]:is([data-collapsible="mobile"], [data-collapsible="all"]):not([data-open="true"])[data-side="right"] [data-cetha-sidebar-panel] {
+      transform: translateX(100%);
+    }
+  }
+
+  @media (min-width: 768px) {
+    [data-cetha-sidebar][data-collapsible="mobile"] [data-cetha-sidebar-panel] {
+      position: static;
+      z-index: auto;
+      transform: none;
+    }
+
+    [data-cetha-sidebar][data-cetha-enhanced="true"]:is([data-collapsible="desktop"], [data-collapsible="all"]):not([data-open="true"])[data-side="left"] [data-cetha-sidebar-panel] {
+      transform: translateX(-100%);
+    }
+
+    [data-cetha-sidebar][data-cetha-enhanced="true"]:is([data-collapsible="desktop"], [data-collapsible="all"]):not([data-open="true"])[data-side="right"] [data-cetha-sidebar-panel] {
+      transform: translateX(100%);
+    }
+  }
+
+  [data-cetha-toast] {
+    opacity: 0;
+    transform: translateY(0.5rem);
   }
 
   [data-cetha-toast][data-entering="true"] {

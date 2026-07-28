@@ -1,19 +1,68 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
+import Icon from './Icon.astro';
 
 interface Props extends HTMLAttributes<'div'> {
   id: string;
   label: string;
   open?: boolean;
+  closeLabel?: string;
+  collapsible?: 'desktop' | 'mobile' | 'all';
+  width?: 'sm' | 'md' | 'lg';
+  side?: 'left' | 'right';
 }
 
-const { id, label, open = false, class: className, ...attrs } = Astro.props;
+const {
+  id,
+  label,
+  open = false,
+  closeLabel,
+  collapsible = 'mobile',
+  width = 'md',
+  side = 'left',
+  class: className,
+  ...attrs
+} = Astro.props;
+const widths = { sm: 'w-56', md: 'w-64', lg: 'w-80' } as const;
+const sides = {
+  left: 'left-0 border-r border-cetha-line',
+  right: 'right-0 border-l border-cetha-line',
+} as const;
+const closeVisibility = {
+  mobile: 'inline-flex md:hidden',
+  desktop: 'hidden md:inline-flex',
+  all: 'inline-flex',
+} as const;
 ---
 
-<div id={id} class:list={['relative', className]} data-cetha-sidebar data-open={String(open)} {...attrs}>
-  <button type="button" class="fixed inset-0 z-40 bg-[var(--cetha-overlay)] transition-opacity md:hidden" aria-label="Close navigation" data-cetha-sidebar-backdrop></button>
-  <nav class="fixed inset-y-0 left-0 z-50 flex w-64 flex-col border-r border-cetha-line bg-cetha-surface transition-transform md:static md:z-auto md:translate-x-0" aria-label={label} data-cetha-sidebar-panel>
-    <div class="border-b border-cetha-line px-5 py-4"><slot name="header" /></div>
+<div
+  id={id}
+  class:list={['relative', className]}
+  data-cetha-sidebar
+  data-open={String(open)}
+  data-collapsible={collapsible}
+  data-side={side}
+  data-width={width}
+  {...attrs}
+>
+  <button
+    type="button"
+    class="fixed inset-0 z-40 bg-[var(--cetha-overlay)] transition-opacity md:hidden"
+    aria-label={closeLabel ?? label}
+    aria-hidden="true"
+    tabindex="-1"
+    data-cetha-sidebar-backdrop
+    hidden={!open}
+  ></button>
+  <nav class:list={['fixed inset-y-0 z-50 flex flex-col bg-cetha-surface transition-transform', widths[width], sides[side]]} aria-label={label} data-cetha-sidebar-panel>
+    <div class="flex min-h-14 items-center gap-3 border-b border-cetha-line px-5 py-3">
+      <div class="min-w-0 flex-1"><slot name="header" /></div>
+      {closeLabel && (
+        <button type="button" class:list={['cetha-focus h-8 w-8 shrink-0 items-center justify-center rounded-cetha-sm text-cetha-text-subtle hover:bg-cetha-control hover:text-cetha-text-strong', closeVisibility[collapsible]]} aria-label={closeLabel} data-cetha-sidebar-close>
+          <Icon name="close" size={18} />
+        </button>
+      )}
+    </div>
     <div class="min-h-0 flex-1 overflow-y-auto p-3"><slot /></div>
     <div class="border-t border-cetha-line px-3 py-3"><slot name="footer" /></div>
   </nav>

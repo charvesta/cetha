@@ -21,3 +21,8 @@ enhancement over semantic HTML.
 Controls accept `size="sm" | "md" | "lg"` for 32, 36, and 40 pixel densities.
 Set `data-cetha-mode="dark"` on an ancestor to enable dark mode and reserve
 `data-cetha-theme` for brand variants.
+
+Sidebar drawers default to `collapsible="mobile"`, `width="md"`, and
+`side="left"`. Use `collapsible="desktop|mobile|all"`, `width="sm|md|lg"`,
+`side="left|right"`, and an optional `closeLabel`. State changes emit the
+bubbling `cetha:change` event with `{ open }`.

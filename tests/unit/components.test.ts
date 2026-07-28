@@ -10,6 +10,10 @@ import Input from '../../packages/cetha/src/components/Input.astro';
 import PasswordInput from '../../packages/cetha/src/components/PasswordInput.astro';
 import Select from '../../packages/cetha/src/components/Select.astro';
 import Icon from '../../packages/cetha/src/components/Icon.astro';
+import Alert from '../../packages/cetha/src/components/Alert.astro';
+import Breadcrumbs from '../../packages/cetha/src/components/Breadcrumbs.astro';
+import Tab from '../../packages/cetha/src/components/Tab.astro';
+import Sidebar from '../../packages/cetha/src/components/Sidebar.astro';
 
 describe('Cetha Astro components', () => {
   test('renders a native button with deterministic state', async () => {
@@ -73,6 +77,7 @@ describe('Cetha Astro components', () => {
     expect(html).toContain('<caption');
     expect(html).toContain('Deployments');
     expect(html).toContain('<tbody');
+    expect(html).toContain('[&amp;_td]:px-4');
   });
 
   test('renders textarea values without leaking Astro slot markup', async () => {
@@ -117,5 +122,59 @@ describe('Cetha Astro components', () => {
     expect(html).toContain('fill="currentColor"');
     expect(html).toContain('aria-label="Search"');
     expect(html).not.toContain('<script');
+  });
+
+  test('resets alert title margins so it aligns with the status icon', async () => {
+    const container = await AstroContainer.create();
+    const html = await container.renderToString(Alert, {
+      props: { tone: 'info', title: 'Configuration required' },
+      slots: { default: 'Connect a destination.' },
+    });
+    expect(html).toContain('m-0 font-medium leading-5');
+    expect(html).toContain('Configuration required');
+  });
+
+  test('resets native ordered-list markers in breadcrumbs', async () => {
+    const container = await AstroContainer.create();
+    const html = await container.renderToString(Breadcrumbs, {
+      props: { label: 'Breadcrumb' },
+      slots: { default: '<li>Home</li><li>Components</li>' },
+    });
+    expect(html).toContain('list-none');
+    expect(html).toContain('m-0');
+    expect(html).toContain('p-0');
+  });
+
+  test('styles tabs from aria-selected so enhancement can move active state', async () => {
+    const container = await AstroContainer.create();
+    const html = await container.renderToString(Tab, {
+      props: { tabsId: 'settings', value: 'security' },
+      slots: { default: 'Security' },
+    });
+    expect(html).toContain('aria-selected:border-cetha-brand');
+    expect(html).toContain('aria-selected:text-cetha-brand-text');
+  });
+
+  test('renders configurable sidebar geometry and an optional native close action', async () => {
+    const container = await AstroContainer.create();
+    const html = await container.renderToString(Sidebar, {
+      props: {
+        id: 'audit-sidebar',
+        label: 'Audit navigation',
+        closeLabel: 'Close navigation',
+        collapsible: 'all',
+        width: 'lg',
+        side: 'right',
+      },
+      slots: { header: 'Audit', default: '<a href="/events">Events</a>' },
+    });
+    expect(html).toContain('data-collapsible="all"');
+    expect(html).toContain('data-side="right"');
+    expect(html).toContain('data-width="lg"');
+    expect(html).toContain('w-80');
+    expect(html).toContain('right-0');
+    expect(html).toContain('data-cetha-sidebar-close');
+    expect(html).toContain('tabindex="-1"');
+    expect(html).toContain(' hidden');
   });
 });

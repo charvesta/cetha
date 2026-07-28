@@ -181,7 +181,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
           <div id="demo-sidebar" class="sidebar-demo">
             <Button size="sm" data-cetha-sidebar-toggle="workspace-sidebar">Toggle navigation</Button>
-            <Sidebar id="workspace-sidebar" label="Workspace">
+            <Sidebar id="workspace-sidebar" label="Workspace" closeLabel="Close navigation" collapsible="all">
               <strong slot="header">Arunika</strong>
               <a class="nav-item active" href="#navigation">Overview</a>
               <a class="nav-item" href="#navigation">Deployments</a>
@@ -301,7 +301,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .nav-item { display: block; border-radius: var(--radius-cetha-md); padding: 8px 10px; color: var(--cetha-text-subtle); font-size: 13px; text-decoration: none; }
   .nav-item:hover, .nav-item.active { background: var(--cetha-control); color: var(--cetha-text-strong); }
   .footer-note { color: var(--cetha-success); font-size: 11px; }
-  th, td { padding-left: 16px; padding-right: 16px; }
   th { white-space: nowrap; }
   td { color: var(--cetha-text); font-size: 13px; }
   .code-block { overflow-x: auto; margin: 0; border-radius: var(--radius-cetha-md); background: var(--cetha-text-strong); padding: 16px; color: var(--cetha-surface); font-size: 12px; }

@@ -16,7 +16,7 @@ export function showToast(options: ToastOptions): boolean {
   const toast = document.createElement('div');
   toast.dataset.cethaToast = '';
   toast.dataset.tone = options.tone ?? 'neutral';
-  toast.className = 'pointer-events-auto rounded-cetha-md border border-cetha-line bg-cetha-raised px-4 py-3 text-cetha-text shadow-cetha opacity-0 translate-y-2 transition-[opacity,transform]';
+  toast.className = 'pointer-events-auto rounded-cetha-md border border-cetha-line bg-cetha-raised px-4 py-3 text-cetha-text shadow-cetha transition-[opacity,transform]';
   toast.setAttribute('role', options.tone === 'danger' ? 'alert' : 'status');
 
   const title = document.createElement('p');

@@ -17,7 +17,7 @@ const icons = { info: 'info', success: 'success', warning: 'warning', danger: 'a
 <div class:list={['flex items-start gap-3 rounded-cetha-md px-4 py-3 text-sm', tones[tone], className]} role={tone === 'danger' ? 'alert' : 'status'} {...attrs}>
   <Icon name={icons[tone]} size={18} class="mt-0.5" />
   <div class="min-w-0">
-    {title && <p class="font-medium">{title}</p>}
+    {title && <p class="m-0 font-medium leading-5">{title}</p>}
     <div class:list={[title && 'mt-0.5', 'leading-6']}><slot /></div>
   </div>
 </div>

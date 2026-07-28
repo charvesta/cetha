@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.2
+
+- Fixed Alert title alignment, Breadcrumb list markers, clickable Tabs active
+  state, Table cell padding, and Toast entrance-state cascade behavior.
+- Expanded Sidebar with focus return, inert closed panels, hidden backdrops,
+  mobile scroll locking, a built-in close action, collapse modes, state events,
+  three widths, and left or right positioning.
+
 ## 0.1.1
 
 - Aligned component density around 32, 36, and 40 pixel controls with tighter

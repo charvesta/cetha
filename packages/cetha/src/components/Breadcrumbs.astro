@@ -6,5 +6,5 @@ const { label, class: className, ...attrs } = Astro.props;
 ---
 
 <nav class:list={['text-sm text-cetha-text-subtle', className]} aria-label={label} {...attrs}>
-  <ol class="flex flex-wrap items-center gap-2 [&>li:not(:last-child)::after]:ml-2 [&>li:not(:last-child)::after]:text-cetha-text-inactive [&>li:not(:last-child)::after]:content-['/']"><slot /></ol>
+  <ol class="m-0 flex list-none flex-wrap items-center gap-2 p-0 [&>li]:inline-flex [&>li]:items-center [&>li:not(:last-child)::after]:ml-2 [&>li:not(:last-child)::after]:text-cetha-text-inactive [&>li:not(:last-child)::after]:content-['/']"><slot /></ol>
 </nav>

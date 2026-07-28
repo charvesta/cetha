@@ -53,15 +53,68 @@ test('supports dropdown and tabs keyboard navigation', async ({ page }) => {
   await expect(page.getByRole('tabpanel', { name: 'General' })).toBeHidden();
 });
 
-test('toggles sidebar and announces toast', async ({ page }) => {
+test('switches tabs on click and moves the active visual state', async ({ page }) => {
+  const general = page.getByRole('tab', { name: 'General' });
+  const security = page.getByRole('tab', { name: 'Security' });
+  await security.click();
+  await expect(security).toHaveAttribute('aria-selected', 'true');
+  await expect(general).toHaveAttribute('aria-selected', 'false');
+  await expect(page.getByRole('tabpanel', { name: 'Security' })).toBeVisible();
+  await expect(page.getByRole('tabpanel', { name: 'General' })).toBeHidden();
+  await expect(security).toHaveCSS('border-bottom-color', 'rgb(79, 70, 229)');
+});
+
+test('removes breadcrumb markers and gives table cells horizontal padding', async ({ page }) => {
+  const breadcrumbList = page.getByRole('navigation', { name: 'Breadcrumb' }).locator('ol');
+  await expect(breadcrumbList).toHaveCSS('list-style-type', 'none');
+  await expect(breadcrumbList).toHaveCSS('padding-left', '0px');
+  const firstHeader = page.getByRole('columnheader', { name: 'Deployment' });
+  const firstCell = page.getByRole('cell', { name: 'web-production-248' });
+  await expect(firstHeader).toHaveCSS('padding-left', '16px');
+  await expect(firstCell).toHaveCSS('padding-left', '16px');
+});
+
+test('manages sidebar state, focus return, backdrop, scroll lock, and events', async ({ page }, testInfo) => {
   const sidebarToggle = page.getByRole('button', { name: 'Toggle navigation' });
+  await page.evaluate(() => {
+    const sidebar = document.querySelector('#workspace-sidebar');
+    (window as typeof window & { sidebarEvents: boolean[] }).sidebarEvents = [];
+    sidebar?.addEventListener('cetha:change', (event) => {
+      (window as typeof window & { sidebarEvents: boolean[] }).sidebarEvents.push((event as CustomEvent<{ open: boolean }>).detail.open);
+    });
+  });
   await sidebarToggle.click();
   await expect(sidebarToggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.getByRole('button', { name: 'Close navigation' })).toBeFocused();
+  if (testInfo.project.name === 'mobile') {
+    await expect(page.locator('body')).toHaveCSS('overflow', 'hidden');
+    await expect(page.locator('[data-cetha-sidebar-backdrop]')).not.toHaveAttribute('hidden', '');
+  } else {
+    await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden');
+  }
   await page.keyboard.press('Escape');
   await expect(sidebarToggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(sidebarToggle).toBeFocused();
+  await expect(page.locator('[data-cetha-sidebar-backdrop]')).toHaveAttribute('hidden', '');
+  await expect(page.locator('[data-cetha-sidebar-backdrop]')).toHaveAttribute('tabindex', '-1');
+  await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden');
+  expect(await page.evaluate(() => (window as typeof window & { sidebarEvents: boolean[] }).sidebarEvents)).toEqual([true, false]);
+});
 
+test('closes the sidebar with its built-in close action and returns focus', async ({ page }) => {
+  const sidebarToggle = page.getByRole('button', { name: 'Toggle navigation' });
+  await sidebarToggle.click();
+  await page.getByRole('button', { name: 'Close navigation' }).click();
+  await expect(sidebarToggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(sidebarToggle).toBeFocused();
+});
+
+test('announces toast state after entering', async ({ page }) => {
   await page.getByRole('button', { name: 'Show toast' }).click();
-  await expect(page.getByRole('status').filter({ hasText: 'Configuration saved' })).toBeVisible();
+  const toast = page.getByRole('status').filter({ hasText: 'Configuration saved' });
+  await expect(toast).toBeVisible();
+  await expect(toast).toHaveCSS('opacity', '1');
+  await expect(toast).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)');
 });
 
 test('uses compact control density and switches the scoped color mode', async ({ page }) => {
@@ -93,6 +146,15 @@ test('keeps focus treatment and icon geometry aligned', async ({ page }) => {
     await expect(icon).toHaveAttribute('viewBox', '0 0 256 256');
     await expect(icon).toHaveCSS('flex-shrink', '0');
   }
+});
+
+test('aligns alert icons with their titles', async ({ page }) => {
+  const alert = page.getByRole('status').filter({ hasText: 'Configuration required' });
+  const iconBox = await alert.locator('svg').boundingBox();
+  const titleBox = await alert.locator('p').boundingBox();
+  expect(iconBox).not.toBeNull();
+  expect(titleBox).not.toBeNull();
+  expect(Math.abs((iconBox?.y ?? 0) - (titleBox?.y ?? 0))).toBeLessThanOrEqual(2);
 });
 
 test('matches the component catalogue visual baseline', async ({ page }, testInfo) => {

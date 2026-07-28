@@ -46,6 +46,10 @@ import Dialog from '@charvesta/cetha/dialog';
 Browser-only controllers are isolated under `@charvesta/cetha/client/*` and
 are never imported by the server barrel.
 
+Interactive Sidebar instances support mobile, desktop, or all-breakpoint
+collapse modes, three widths, both screen edges, focus return, mobile scroll
+locking, and a bubbling `cetha:change` state event.
+
 ## Styling
 
 Cetha uses Tailwind CSS 4 as a repository build tool. The npm package ships a

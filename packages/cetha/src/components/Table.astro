@@ -10,7 +10,7 @@ const { caption, compact = false, class: className, ...attrs } = Astro.props;
 ---
 
 <div class:list={['overflow-x-auto rounded-cetha-lg border border-cetha-line bg-cetha-surface', className]} {...attrs}>
-  <table class:list={['w-full border-collapse text-left', compact ? '[&_td]:py-2 [&_th]:py-2' : '[&_td]:py-3 [&_th]:py-3']}>
+  <table class:list={['w-full border-collapse text-left [&_td]:px-4 [&_th]:px-4', compact ? '[&_td]:py-2 [&_th]:py-2' : '[&_td]:py-3 [&_th]:py-3']}>
     {caption && <caption class="sr-only">{caption}</caption>}
     <thead class="border-b border-cetha-line bg-cetha-control text-xs font-medium text-cetha-text-subtle"><slot name="head" /></thead>
     <tbody class="divide-y divide-cetha-line"><slot /></tbody>
