@@ -12,7 +12,7 @@ const { id, align = 'start', class: className, ...attrs } = Astro.props;
 
 <details id={id} class:list={['group relative inline-block', className]} data-cetha-dropdown {...attrs}>
   <summary
-    class="cetha-focus flex min-h-9 cursor-pointer list-none items-center gap-2 rounded-cetha-md border border-cetha-line bg-cetha-surface px-3 py-2 text-sm font-medium text-cetha-text-strong hover:bg-cetha-control [&::-webkit-details-marker]:hidden"
+    class="cetha-focus flex h-9 cursor-pointer list-none items-center gap-2 rounded-cetha-md border border-cetha-line bg-cetha-surface px-3 text-sm font-medium text-cetha-text-strong hover:bg-cetha-control [&::-webkit-details-marker]:hidden"
     aria-haspopup="menu"
     aria-controls={`${id}-menu`}
   >

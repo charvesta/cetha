@@ -45,7 +45,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <a href="#overlays">Overlays</a>
       <a href="#data">Data</a>
     </nav>
-    <a class="repo-link" href="https://github.com/charvesta/cetha">GitHub</a>
+    <div class="header-actions">
+      <Button id="mode-toggle" size="sm" variant="ghost" aria-pressed="false"><Icon name="settings" size={16} /> <span data-mode-label>Dark mode</span></Button>
+      <a class="repo-link" href="https://github.com/charvesta/cetha">GitHub</a>
+    </div>
   </header>
 
   <main>
@@ -93,14 +96,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <Button variant="danger">Delete</Button>
             <Button loading>Saving</Button>
           </div>
+          <div class="demo density-demo" aria-label="Button sizes">
+            <span>32</span><Button size="sm">Small</Button>
+            <span>36</span><Button size="md">Default</Button>
+            <span>40</span><Button size="lg">Large</Button>
+          </div>
           <div class="demo row-demo">
             <Badge>Neutral</Badge><Badge tone="info">Info</Badge><Badge tone="success">Active</Badge><Badge tone="warning">Pending</Badge><Badge tone="danger">Failed</Badge>
+          </div>
+          <div class="demo icon-demo" aria-label="Cetha icon set">
+            {(['alert', 'arrowLeft', 'arrowRight', 'check', 'chevronDown', 'close', 'copy', 'eye', 'eyeOff', 'info', 'menu', 'search', 'settings', 'success', 'warning'] as const).map((name) => (
+              <span title={name}><Icon name={name} size={20} /><small>{name}</small></span>
+            ))}
           </div>
         </section>
 
         <section id="forms" class="doc-section">
           <header><p>02</p><div><h2>Forms</h2><span>Native controls with deterministic IDs and visible relationships.</span></div></header>
           <Surface bordered class="demo form-demo">
+            <div class="control-sizes" aria-label="Input sizes">
+              <Input size="sm" aria-label="Small input" value="Small · 32px" />
+              <Input size="md" aria-label="Default input" value="Default · 36px" />
+              <Input size="lg" aria-label="Large input" value="Large · 40px" />
+            </div>
             <div class="two-columns">
               <Field id="workspace-name" label="Workspace name" description="Shown to everyone in this workspace." required>
                 <Input id="workspace-name" name="workspace" value="Arunika Operations" required aria-describedby="workspace-name-description" />
@@ -175,7 +193,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
         <section id="data" class="doc-section">
           <header><p>06</p><div><h2>Data</h2><span>Semantic tables remain readable before any client controller runs.</span></div></header>
-          <Table caption="Recent deployments">
+          <Table caption="Recent deployments" compact>
             <tr slot="head"><th scope="col">Deployment</th><th scope="col">Status</th><th scope="col">Duration</th></tr>
             <tr><td>web-production-248</td><td><Badge tone="success">Healthy</Badge></td><td>42s</td></tr>
             <tr><td>worker-sync-031</td><td><Badge tone="warning">Building</Badge></td><td>18s</td></tr>
@@ -210,6 +228,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   };
   bindToast();
   document.addEventListener('astro:page-load', () => bindToast());
+
+  const bindModeToggle = () => {
+    const trigger = document.querySelector<HTMLButtonElement>('#mode-toggle');
+    if (!trigger || trigger.dataset.bound) return;
+    const root = document.documentElement;
+    const label = trigger.querySelector<HTMLElement>('[data-mode-label]');
+    const themeColor = document.querySelector<HTMLMetaElement>('[data-cetha-theme-color]');
+    trigger.addEventListener('click', () => {
+      const dark = root.dataset.cethaMode !== 'dark';
+      root.dataset.cethaMode = dark ? 'dark' : 'light';
+      trigger.setAttribute('aria-pressed', String(dark));
+      if (label) label.textContent = dark ? 'Light mode' : 'Dark mode';
+      if (themeColor) themeColor.content = dark ? '#111316' : '#f7f8fa';
+    });
+    trigger.dataset.bound = 'true';
+  };
+  bindModeToggle();
+  document.addEventListener('astro:page-load', () => bindModeToggle());
 </script>
 
 <style>
@@ -221,10 +257,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .site-header nav { display: flex; align-items: center; gap: 24px; }
   .site-header nav a, .repo-link { color: var(--cetha-text-subtle); font-size: 12px; font-weight: 500; text-decoration: none; }
   .site-header nav a:hover, .repo-link:hover { color: var(--cetha-text-strong); }
-  .repo-link { justify-self: end; }
+  .header-actions { justify-self: end; display: flex; align-items: center; gap: 12px; }
   main { width: min(1240px, calc(100% - 48px)); margin: 0 auto; }
   .intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 48px; min-height: 510px; padding: 96px 0 72px; border-bottom: 1px solid var(--cetha-line); }
-  .eyebrow { margin: 0 0 24px; color: var(--cetha-brand); font-size: 11px; font-weight: 600; text-transform: uppercase; }
+  .eyebrow { margin: 0 0 24px; color: var(--cetha-brand-text); font-size: 11px; font-weight: 600; text-transform: uppercase; }
   h1 { max-width: 760px; margin: 0; color: var(--cetha-text-strong); font-size: clamp(48px, 7vw, 88px); font-weight: 500; line-height: .95; letter-spacing: -.055em; }
   .lead { max-width: 620px; margin: 28px 0 0; color: var(--cetha-text-subtle); font-size: 16px; line-height: 1.75; }
   .intro-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 32px; }
@@ -234,7 +270,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .toc { position: sticky; top: 96px; display: grid; align-content: start; gap: 12px; height: fit-content; }
   .toc p { margin: 0 0 4px; color: var(--cetha-text-strong); font-size: 12px; font-weight: 600; }
   .toc a { color: var(--cetha-text-subtle); font-size: 12px; text-decoration: none; }
-  .toc a:hover { color: var(--cetha-brand); }
+  .toc a:hover { color: var(--cetha-brand-text); }
   .catalogue { min-width: 0; }
   .doc-section { scroll-margin-top: 90px; padding: 0 0 88px; }
   .doc-section > header { display: grid; grid-template-columns: 48px 1fr; gap: 16px; margin-bottom: 28px; }
@@ -244,25 +280,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .demo { padding: 28px; }
   .type-demo { display: grid; gap: 14px; }
   .row-demo { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .density-demo { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .density-demo > span { color: var(--cetha-text-inactive); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+  .icon-demo { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--cetha-line); padding: 1px; }
+  .icon-demo > span { display: grid; place-items: center; gap: 8px; min-height: 76px; background: var(--cetha-base); color: var(--cetha-text-strong); }
+  .icon-demo small { color: var(--cetha-text-subtle); font-size: 9px; }
   .form-demo { display: grid; gap: 22px; padding: 28px; }
   .two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .control-sizes { display: grid; grid-template-columns: repeat(3, 1fr); align-items: center; gap: 12px; }
   .radio-option { display: flex; align-items: center; gap: 8px; color: var(--cetha-text); font-size: 14px; }
   .radio-option input { accent-color: var(--cetha-brand); }
   .feedback-demo { display: grid; gap: 14px; }
   .menu-item { display: block; width: 100%; border: 0; border-radius: 6px; background: transparent; padding: 8px 10px; color: var(--cetha-text); text-align: left; font-size: 13px; cursor: pointer; }
   .menu-item:hover, .menu-item:focus { outline: 0; background: var(--cetha-control); color: var(--cetha-text-strong); }
   .menu-item.danger { color: var(--cetha-danger); }
-  .sidebar-demo { position: relative; min-height: 300px; overflow: hidden; border: 1px solid var(--cetha-line); border-radius: 14px; background: var(--cetha-base); padding: 18px 18px 18px 282px; }
+  .sidebar-demo { position: relative; min-height: 300px; overflow: hidden; border: 1px solid var(--cetha-line); border-radius: var(--radius-cetha-lg); background: var(--cetha-base); padding: 18px 18px 18px 282px; }
   .sidebar-demo [data-cetha-sidebar] { position: absolute; inset: 0 auto 0 0; }
   .sidebar-demo [data-cetha-sidebar-panel] { position: absolute; }
   .sidebar-demo [data-cetha-sidebar-backdrop] { position: absolute; }
-  .nav-item { display: block; border-radius: 8px; padding: 9px 10px; color: var(--cetha-text-subtle); font-size: 13px; text-decoration: none; }
+  .nav-item { display: block; border-radius: var(--radius-cetha-md); padding: 8px 10px; color: var(--cetha-text-subtle); font-size: 13px; text-decoration: none; }
   .nav-item:hover, .nav-item.active { background: var(--cetha-control); color: var(--cetha-text-strong); }
   .footer-note { color: var(--cetha-success); font-size: 11px; }
   th, td { padding-left: 16px; padding-right: 16px; }
   th { white-space: nowrap; }
   td { color: var(--cetha-text); font-size: 13px; }
-  .code-block { overflow-x: auto; margin: 0; border-radius: 10px; background: var(--cetha-text-strong); padding: 16px; color: var(--cetha-surface); font-size: 12px; }
+  .code-block { overflow-x: auto; margin: 0; border-radius: var(--radius-cetha-md); background: var(--cetha-text-strong); padding: 16px; color: var(--cetha-surface); font-size: 12px; }
   .dialog-copy { margin: 16px 0 0; color: var(--cetha-text-subtle); font-size: 13px; line-height: 1.7; }
   @media (max-width: 800px) {
     .site-header { grid-template-columns: 1fr auto; padding: 0 18px; }
@@ -273,6 +315,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     .docs-grid { grid-template-columns: 1fr; padding-top: 52px; }
     .toc { display: none; }
     .two-columns { grid-template-columns: 1fr; }
+    .control-sizes { grid-template-columns: 1fr; }
+    .icon-demo { grid-template-columns: repeat(3, 1fr); }
     .demo, .form-demo { padding: 18px; }
     .sidebar-demo { padding-left: 18px; }
   }

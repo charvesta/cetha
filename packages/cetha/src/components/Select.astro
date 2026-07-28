@@ -1,13 +1,22 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
 
-interface Props extends HTMLAttributes<'select'> { invalid?: boolean; }
-const { invalid = false, class: className, ...attrs } = Astro.props;
+interface Props extends HTMLAttributes<'select'> {
+  invalid?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+}
+const { invalid = false, size = 'md', class: className, ...attrs } = Astro.props;
+const sizes = {
+  sm: 'h-8 px-2.5 text-xs',
+  md: 'h-9 px-3 text-sm',
+  lg: 'h-10 px-3 text-sm',
+} as const;
 ---
 
 <select
   class:list={[
-    'cetha-focus min-h-10 w-full rounded-cetha-md border bg-cetha-surface px-3 py-2 text-sm text-cetha-text-strong disabled:cursor-not-allowed disabled:bg-cetha-control',
+    'cetha-focus w-full rounded-cetha-md border bg-cetha-surface text-cetha-text-strong disabled:cursor-not-allowed disabled:bg-cetha-control',
+    sizes[size],
     invalid ? 'border-cetha-danger' : 'border-cetha-line hover:border-cetha-line-strong',
     className,
   ]}

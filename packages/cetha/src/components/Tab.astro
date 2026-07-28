@@ -14,8 +14,8 @@ const { tabsId, value, active = false, class: className, ...attrs } = Astro.prop
   id={`${tabsId}-tab-${value}`}
   type="button"
   class:list={[
-    'cetha-focus -mb-px min-h-10 shrink-0 border-b-2 px-3 py-2 text-sm font-medium',
-    active ? 'border-cetha-brand text-cetha-brand' : 'border-transparent text-cetha-text-subtle hover:text-cetha-text-strong',
+    'cetha-focus -mb-px h-9 shrink-0 border-b-2 px-3 text-sm font-medium',
+    active ? 'border-cetha-brand text-cetha-brand-text' : 'border-transparent text-cetha-text-subtle hover:text-cetha-text-strong',
     className,
   ]}
   role="tab"

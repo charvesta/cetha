@@ -100,7 +100,7 @@ export class DataTableController<T extends Record<string, unknown>> {
         const button = document.createElement('button');
         button.type = 'button';
         button.dataset.cethaTablePage = String(page);
-        button.className = 'cetha-focus min-h-8 min-w-8 rounded-cetha-sm px-2 text-xs font-medium';
+        button.className = 'cetha-focus h-8 min-w-8 rounded-cetha-sm px-2 text-xs font-medium';
         button.textContent = String(page);
         button.setAttribute('aria-current', page === this.#page ? 'page' : 'false');
         if (page === this.#page) button.classList.add('bg-cetha-brand', 'text-white');

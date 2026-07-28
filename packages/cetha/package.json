@@ -1,6 +1,6 @@
 {
   "name": "@charvesta/cetha",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Astro-native, SSR-safe UI components for product interfaces.",
   "type": "module",
   "license": "MIT",
@@ -22,7 +22,8 @@
   "files": [
     "src",
     "dist",
-    "README.md"
+    "README.md",
+    "THIRD_PARTY_NOTICES.md"
   ],
   "sideEffects": [
     "**/*.astro",

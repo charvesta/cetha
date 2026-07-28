@@ -6,6 +6,10 @@ import Field from '../../packages/cetha/src/components/Field.astro';
 import Table from '../../packages/cetha/src/components/Table.astro';
 import Tabs from '../../packages/cetha/src/components/Tabs.astro';
 import Textarea from '../../packages/cetha/src/components/Textarea.astro';
+import Input from '../../packages/cetha/src/components/Input.astro';
+import PasswordInput from '../../packages/cetha/src/components/PasswordInput.astro';
+import Select from '../../packages/cetha/src/components/Select.astro';
+import Icon from '../../packages/cetha/src/components/Icon.astro';
 
 describe('Cetha Astro components', () => {
   test('renders a native button with deterministic state', async () => {
@@ -80,5 +84,38 @@ describe('Cetha Astro components', () => {
     expect(html).toContain('>Operational profile</textarea>');
     expect(html).not.toContain('&lt;slot /&gt;');
     expect(html).not.toContain('<slot />');
+  });
+
+  test.each([
+    [Button, 'h-8', 'h-9', 'h-10'],
+    [Input, 'h-8', 'h-9', 'h-10'],
+    [Select, 'h-8', 'h-9', 'h-10'],
+  ] as const)('renders deterministic sm, md, and lg control sizes', async (Component, smClass, mdClass, lgClass) => {
+    const container = await AstroContainer.create();
+    const small = await container.renderToString(Component, { props: { size: 'sm', 'aria-label': 'Small' }, slots: { default: 'Small' } });
+    const medium = await container.renderToString(Component, { props: { 'aria-label': 'Default' }, slots: { default: 'Default' } });
+    const large = await container.renderToString(Component, { props: { size: 'lg', 'aria-label': 'Large' }, slots: { default: 'Large' } });
+    expect(small).toContain(smClass);
+    expect(medium).toContain(mdClass);
+    expect(large).toContain(lgClass);
+  });
+
+  test('sizes password input without changing its stable relationships', async () => {
+    const container = await AstroContainer.create();
+    const html = await container.renderToString(PasswordInput, {
+      props: { id: 'secret', label: 'Secret', showLabel: 'Show', hideLabel: 'Hide', size: 'sm' },
+    });
+    expect(html).toContain('h-8');
+    expect(html).toContain('for="secret"');
+    expect(html).toContain('data-cetha-password');
+  });
+
+  test('renders local Phosphor geometry without a client runtime', async () => {
+    const container = await AstroContainer.create();
+    const html = await container.renderToString(Icon, { props: { name: 'search', label: 'Search', size: 18 } });
+    expect(html).toContain('viewBox="0 0 256 256"');
+    expect(html).toContain('fill="currentColor"');
+    expect(html).toContain('aria-label="Search"');
+    expect(html).not.toContain('<script');
   });
 });

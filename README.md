@@ -53,6 +53,10 @@ compiled stylesheet, so consuming projects do not need Tailwind or a Cetha
 build plugin. Theme colors and dimensions are exposed through semantic
 `--cetha-*` custom properties.
 
+Use `data-cetha-mode="light|dark"` for luminosity and
+`data-cetha-theme="default"` for the theme identity. Form controls and buttons
+share `sm` (32px), `md` (36px, default), and `lg` (40px) density values.
+
 ## SSR contract
 
 - no browser globals in component frontmatter or module-level package code

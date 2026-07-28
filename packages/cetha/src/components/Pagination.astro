@@ -15,7 +15,7 @@ const hrefFor = (target: number) => `${baseUrl}${baseUrl.includes('?') ? '&' : '
 ---
 
 <nav class:list={['flex items-center justify-between gap-3', className]} aria-label={label} {...attrs}>
-  {page > 1 ? <a class="cetha-focus rounded-cetha-sm px-3 py-2 text-sm font-medium text-cetha-text hover:bg-cetha-control" href={hrefFor(page - 1)} rel="prev">{previousLabel}</a> : <span></span>}
+  {page > 1 ? <a class="cetha-focus inline-flex h-8 items-center rounded-cetha-sm px-3 text-xs font-medium text-cetha-text hover:bg-cetha-control" href={hrefFor(page - 1)} rel="prev">{previousLabel}</a> : <span></span>}
   <span class="text-xs text-cetha-text-subtle">{page} / {pageCount}</span>
-  {page < pageCount ? <a class="cetha-focus rounded-cetha-sm px-3 py-2 text-sm font-medium text-cetha-text hover:bg-cetha-control" href={hrefFor(page + 1)} rel="next">{nextLabel}</a> : <span></span>}
+  {page < pageCount ? <a class="cetha-focus inline-flex h-8 items-center rounded-cetha-sm px-3 text-xs font-medium text-cetha-text hover:bg-cetha-control" href={hrefFor(page + 1)} rel="next">{nextLabel}</a> : <span></span>}
 </nav>

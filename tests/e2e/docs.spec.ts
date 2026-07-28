@@ -64,6 +64,37 @@ test('toggles sidebar and announces toast', async ({ page }) => {
   await expect(page.getByRole('status').filter({ hasText: 'Configuration saved' })).toBeVisible();
 });
 
+test('uses compact control density and switches the scoped color mode', async ({ page }) => {
+  await expect(page.getByRole('button', { name: 'Small' })).toHaveCSS('height', '32px');
+  await expect(page.getByRole('button', { name: 'Default' })).toHaveCSS('height', '36px');
+  await expect(page.getByRole('button', { name: 'Large' })).toHaveCSS('height', '40px');
+  await expect(page.getByLabel('Small input')).toHaveCSS('height', '32px');
+  await expect(page.getByLabel('Default input')).toHaveCSS('height', '36px');
+  await expect(page.getByLabel('Large input')).toHaveCSS('height', '40px');
+
+  const root = page.locator('html');
+  await expect(root).toHaveAttribute('data-cetha-mode', 'light');
+  await expect(root).toHaveAttribute('data-cetha-theme', 'default');
+  await page.getByRole('button', { name: /Dark mode/ }).click();
+  await expect(root).toHaveAttribute('data-cetha-mode', 'dark');
+  await expect(page.getByRole('button', { name: /Light mode/ })).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(17, 19, 22)');
+});
+
+test('keeps focus treatment and icon geometry aligned', async ({ page }) => {
+  const defaultButton = page.getByRole('button', { name: 'Default' });
+  await defaultButton.focus();
+  await expect(defaultButton).toHaveCSS('outline-style', 'solid');
+  await expect(defaultButton).toHaveCSS('outline-width', '2px');
+
+  const icons = page.locator('.icon-demo svg');
+  await expect(icons).toHaveCount(15);
+  for (const icon of await icons.all()) {
+    await expect(icon).toHaveAttribute('viewBox', '0 0 256 256');
+    await expect(icon).toHaveCSS('flex-shrink', '0');
+  }
+});
+
 test('matches the component catalogue visual baseline', async ({ page }, testInfo) => {
   await page.evaluate(() => document.fonts.ready);
   await expect(page).toHaveScreenshot(`catalogue-${testInfo.project.name}.png`, {

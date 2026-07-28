@@ -17,3 +17,7 @@ import '@charvesta/cetha/styles';
 Cetha has no runtime dependency and does not require Tailwind in the consuming
 project. JavaScript is included only by interactive components as progressive
 enhancement over semantic HTML.
+
+Controls accept `size="sm" | "md" | "lg"` for 32, 36, and 40 pixel densities.
+Set `data-cetha-mode="dark"` on an ancestor to enable dark mode and reserve
+`data-cetha-theme` for brand variants.

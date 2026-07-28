@@ -1,51 +1,29 @@
 ---
 import type { HTMLAttributes } from 'astro/types';
-
-const icons = {
-  alert: ['M12 9v4', 'M12 17h.01', 'M10.3 3.7 2.2 17h19.6l-8.5-17a1.7 1.7 0 0 0-3 0Z'],
-  arrowLeft: ['m15 18-6-6 6-6'],
-  arrowRight: ['m9 18 6-6-6-6'],
-  check: ['m5 12 4 4L19 6'],
-  chevronDown: ['m6 9 6 6 6-6'],
-  close: ['M18 6 6 18', 'm6 6 12 12'],
-  copy: ['M8 8h11v11H8z', 'M5 16H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v1'],
-  eye: ['M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z', 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z'],
-  eyeOff: ['m3 3 18 18', 'M10.6 10.6a2 2 0 0 0 2.8 2.8', 'M9.9 5.2A10 10 0 0 1 12 5c6 0 9.5 7 9.5 7a16 16 0 0 1-2 2.8', 'M6.2 6.2A16 16 0 0 0 2.5 12S6 19 12 19a10 10 0 0 0 3.8-.8'],
-  info: ['M12 8h.01', 'M11 12h1v4h1', 'M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z'],
-  menu: ['M4 6h16', 'M4 12h16', 'M4 18h16'],
-  search: ['m21 21-4.3-4.3', 'M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z'],
-  settings: ['M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z', 'M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.1H10V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.9v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.9h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.1v4H21a1.7 1.7 0 0 0-1.6 1Z'],
-  success: ['m7 12 3 3 7-7', 'M21 12a9 9 0 1 1-5.3-8.2'],
-  warning: ['M12 9v4', 'M12 17h.01', 'M10.3 3.7 2.2 17h19.6l-8.5-17a1.7 1.7 0 0 0-3 0Z'],
-} as const;
-
-type IconName = keyof typeof icons;
+import { phosphorIcons, type PhosphorIconName } from '../icons/phosphor';
 
 interface Props extends HTMLAttributes<'svg'> {
-  name: IconName;
+  name: PhosphorIconName;
   label?: string;
   size?: number;
+  /** Retained for API compatibility; Phosphor regular icons use filled path geometry. */
   strokeWidth?: number;
 }
 
-const { name, label, size = 20, strokeWidth = 1.8, class: className, ...attrs } = Astro.props;
+const { name, label, size = 20, strokeWidth: _strokeWidth, class: className, ...attrs } = Astro.props;
 ---
 
 <svg
   class:list={['shrink-0', className]}
   width={size}
   height={size}
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width={strokeWidth}
-  stroke-linecap="round"
-  stroke-linejoin="round"
+  viewBox="0 0 256 256"
+  fill="currentColor"
   role={label ? 'img' : undefined}
   aria-label={label}
   aria-hidden={label ? undefined : 'true'}
   focusable="false"
   {...attrs}
 >
-  {icons[name].map((path) => <path d={path} />)}
+  <path d={phosphorIcons[name]} />
 </svg>
