@@ -1,0 +1,6 @@
+---
+import type { HTMLAttributes } from 'astro/types'; import Loader from './Loader.astro';
+interface Props extends HTMLAttributes<'div'> { label: string; visible?: boolean; }
+const { label, visible = true, class: className, ...attrs } = Astro.props;
+---
+<div class:list={['absolute inset-0 z-20 items-center justify-center rounded-[inherit] bg-cetha-surface/80 backdrop-blur-[2px]', visible ? 'flex' : 'hidden', className]} aria-live="polite" aria-busy={visible ? 'true' : 'false'} {...attrs}><div class="flex items-center gap-2 rounded-cetha-md border border-cetha-line bg-cetha-raised px-3 py-2 text-sm font-medium text-cetha-text-strong shadow-cetha-md"><Loader label={label} />{label}</div></div>

@@ -1,0 +1,6 @@
+---
+import type { HTMLAttributes } from 'astro/types'; import Kbd from './Kbd.astro';
+interface Props extends HTMLAttributes<'button'> { label: string; keywords?: string; shortcut?: string; }
+const { label, keywords = '', shortcut, class: className, ...attrs } = Astro.props;
+---
+<button type="button" class:list={['cetha-focus flex w-full items-center gap-3 rounded-cetha-md px-3 py-2 text-left text-sm text-cetha-text hover:bg-cetha-control aria-selected:bg-cetha-brand-soft aria-selected:text-cetha-brand-text-strong', className]} role="option" data-cetha-command-item data-command-search={`${label} ${keywords}`} {...attrs}><slot name="icon" /><span class="flex-1">{label}</span>{shortcut && <Kbd>{shortcut}</Kbd>}</button>

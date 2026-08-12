@@ -1,0 +1,6 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'ol'> { label: string; }
+const { label, class: className, ...attrs } = Astro.props;
+---
+<ol class:list={['grid list-none gap-0 p-0 sm:grid-flow-col sm:grid-cols-[repeat(auto-fit,minmax(0,1fr))]', className]} aria-label={label} {...attrs}><slot /></ol>

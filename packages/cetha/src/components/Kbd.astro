@@ -1,0 +1,6 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'kbd'> {}
+const { class: className, ...attrs } = Astro.props;
+---
+<kbd class:list={['inline-flex min-w-5 items-center justify-center rounded-cetha-sm border border-cetha-line-strong bg-cetha-control px-1.5 py-0.5 font-mono text-[11px] font-medium leading-4 text-cetha-text-subtle shadow-cetha-sm', className]} {...attrs}><slot /></kbd>

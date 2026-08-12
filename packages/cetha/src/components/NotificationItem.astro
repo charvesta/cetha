@@ -1,0 +1,9 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'article'> { title: string; description?: string; time?: string; unread?: boolean; href?: string; }
+const { title, description, time, unread = false, href, class: className, ...attrs } = Astro.props; const Tag = href ? 'a' : 'article';
+---
+<Tag class:list={['group flex gap-3 border-b border-cetha-line px-4 py-3 text-left no-underline transition-colors last:border-b-0 hover:bg-cetha-control', className]} href={href} {...attrs}>
+  <span class="mt-1"><slot name="avatar" />{unread && <span class="block size-2 rounded-full bg-cetha-brand" aria-label="Belum dibaca"></span>}</span>
+  <span class="min-w-0 flex-1"><span class="block text-sm font-medium text-cetha-text-strong">{title}</span>{description && <span class="mt-0.5 block text-xs leading-5 text-cetha-text-subtle">{description}</span>}{time && <time class="mt-1 block text-[11px] text-cetha-text-inactive">{time}</time>}</span><slot name="action" />
+</Tag>

@@ -1,0 +1,7 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'div'> { label: string; value: string | number; change?: string; trend?: 'up' | 'down' | 'neutral'; }
+const { label, value, change, trend = 'neutral', class: className, ...attrs } = Astro.props;
+const trendClass = trend === 'up' ? 'text-cetha-success' : trend === 'down' ? 'text-cetha-danger' : 'text-cetha-text-subtle';
+---
+<div class:list={['grid min-w-0 gap-1 border-l-2 border-cetha-line pl-4', className]} {...attrs}><span class="text-xs font-medium text-cetha-text-subtle">{label}</span><strong class="text-2xl font-semibold tracking-tight text-cetha-text-strong tabular-nums">{value}</strong>{change && <span class:list={['text-xs font-medium', trendClass]}>{change}</span>}</div>

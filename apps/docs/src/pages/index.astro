@@ -1,26 +1,44 @@
 ---
 import {
   Alert,
+  Avatar,
+  AvatarGroup,
   Badge,
   Breadcrumbs,
   Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
   Checkbox,
+  CommandItem,
+  CommandPalette,
   Dialog,
   Divider,
   Dropdown,
   EmptyState,
   Field,
+  FileInput,
   Icon,
   Input,
+  Kbd,
   Link,
   Loader,
+  LoadingOverlay,
+  NavigationRail,
+  NotificationItem,
   Pagination,
   PasswordInput,
+  ProgressBar,
   RadioGroup,
   Select,
+  SelectableCard,
   Sidebar,
   Skeleton,
   Surface,
+  Stat,
+  Step,
+  Stepper,
   Switch,
   Tab,
   TabPanel,
@@ -46,6 +64,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <a href="#data">Data</a>
     </nav>
     <div class="header-actions">
+      <Button size="sm" variant="ghost" data-cetha-command-open="erp-command"><Icon name="search" size={16} /> Cari <Kbd>⌘ K</Kbd></Button>
       <Button id="mode-toggle" size="sm" variant="ghost" aria-pressed="false"><Icon name="settings" size={16} /> <span data-mode-label>Dark mode</span></Button>
       <a class="repo-link" href="https://github.com/charvesta/cetha">GitHub</a>
     </div>
@@ -74,6 +93,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <a href="#foundations">Foundations</a>
         <a href="#forms">Forms</a>
         <a href="#feedback">Feedback</a>
+        <a href="#erp">ERP patterns</a>
         <a href="#overlays">Overlays</a>
         <a href="#navigation">Navigation</a>
         <a href="#data">Data</a>
@@ -153,6 +173,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           </div>
         </section>
 
+        <section id="erp" class="doc-section">
+          <header><p>04</p><div><h2>ERP patterns</h2><span>Identity, onboarding, plans, quota, upload, and activity primitives.</span></div></header>
+          <div class="demo erp-stack">
+            <div class="erp-row"><Avatar alt="Nadia Putri" initials="NP" status="online" /><AvatarGroup label="Tim finance"><Avatar alt="Raka" size="sm" /><Avatar alt="Maya" size="sm" /><Avatar alt="Dito" size="sm" /></AvatarGroup><div class="erp-stats"><Stat label="Pengguna" value="248" change="+12 bulan ini" trend="up" /><Stat label="Cabang" value="8" /></div></div>
+            <Stepper label="Pembuatan perusahaan"><Step index={1} title="Perusahaan" state="complete" /><Step index={2} title="Administrasi" state="current" /><Step index={3} title="Modul" /></Stepper>
+            <ProgressBar label="Kuota pengguna" value={72} showValue />
+            <div class="erp-grid"><SelectableCard name="plan" value="growth" title="Growth" description="Untuk tim yang sedang berkembang." checked><strong>Rp499.000</strong> / bulan</SelectableCard><SelectableCard name="plan" value="scale" title="Scale" description="Kontrol lanjutan untuk banyak cabang."><strong>Rp899.000</strong> / bulan</SelectableCard></div>
+            <FileInput id="company-logo" name="company-logo" label="Unggah logo perusahaan" description="PNG, JPG, atau SVG hingga 2 MB" accept="image/*" />
+            <Card><CardHeader><strong>Aktivitas terbaru</strong></CardHeader><CardBody class="!p-0"><NotificationItem title="Pembayaran diterima" description="Invoice INV-2048 telah lunas." time="2 menit lalu" unread /><NotificationItem title="Pengguna baru" description="Maya bergabung ke cabang Jakarta." time="1 jam lalu" /></CardBody><CardFooter><Button size="sm" variant="ghost">Lihat semua</Button></CardFooter></Card>
+            <div class="erp-shell"><NavigationRail label="Modul ERP"><Button size="sm" variant="primary" aria-label="Beranda">C</Button><Button size="sm" variant="ghost" aria-label="Pengaturan"><Icon name="settings" size={18} /></Button></NavigationRail><div class="relative flex min-h-36 flex-1 items-center justify-center text-sm text-cetha-text-subtle">Area kerja ERP<LoadingOverlay label="Memuat laporan" visible={false} /></div></div>
+          </div>
+        </section>
+
         <section id="overlays" class="doc-section">
           <header><p>04</p><div><h2>Overlays</h2><span>Native dialog and details-first dropdown, progressively enhanced.</span></div></header>
           <div class="demo row-demo">
@@ -216,6 +249,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <Button slot="footer" data-cetha-dialog-close="saved" variant="primary">Save changes</Button>
   </Dialog>
   <ToastRegion label="Notifications" />
+  <CommandPalette id="erp-command" label="Cari di Cetha UI"><CommandItem label="Buka dashboard" keywords="beranda home" shortcut="G D"><Icon slot="icon" name="menu" size={17} /></CommandItem><CommandItem label="Pengaturan perusahaan" keywords="company settings"><Icon slot="icon" name="settings" size={17} /></CommandItem><CommandItem label="Cari pengguna" keywords="user team"><Icon slot="icon" name="search" size={17} /></CommandItem></CommandPalette>
 </BaseLayout>
 
 <script>
@@ -246,6 +280,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   };
   bindModeToggle();
   document.addEventListener('astro:page-load', () => bindModeToggle());
+
+  const bindCommandTrigger = () => document.querySelectorAll<HTMLElement>('[data-cetha-command-open]').forEach((trigger) => {
+    if (trigger.dataset.bound) return;
+    trigger.addEventListener('click', () => document.getElementById(trigger.dataset.cethaCommandOpen ?? '') instanceof HTMLDialogElement && (document.getElementById(trigger.dataset.cethaCommandOpen ?? '') as HTMLDialogElement).showModal());
+    trigger.dataset.bound = 'true';
+  });
+  bindCommandTrigger();
+  document.addEventListener('astro:page-load', bindCommandTrigger);
 </script>
 
 <style>
@@ -258,6 +300,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .site-header nav a, .repo-link { color: var(--cetha-text-subtle); font-size: 12px; font-weight: 500; text-decoration: none; }
   .site-header nav a:hover, .repo-link:hover { color: var(--cetha-text-strong); }
   .header-actions { justify-self: end; display: flex; align-items: center; gap: 12px; }
+  .erp-stack { display: grid; gap: 24px; }
+  .erp-row { display: flex; align-items: center; gap: 20px; }
+  .erp-stats { margin-left: auto; display: flex; gap: 32px; }
+  .erp-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .erp-shell { display: flex; overflow: hidden; min-height: 144px; border: 1px solid var(--cetha-line); border-radius: var(--radius-cetha-lg); background: var(--cetha-base); }
   main { width: min(1240px, calc(100% - 48px)); margin: 0 auto; }
   .intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 48px; min-height: 510px; padding: 96px 0 72px; border-bottom: 1px solid var(--cetha-line); }
   .eyebrow { margin: 0 0 24px; color: var(--cetha-brand-text); font-size: 11px; font-weight: 600; text-transform: uppercase; }

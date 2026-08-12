@@ -1,0 +1,13 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+interface Props extends HTMLAttributes<'span'> { src?: string; alt: string; initials?: string; size?: Size; status?: 'online' | 'busy' | 'away' | 'offline'; }
+const { src, alt, initials, size = 'md', status, class: className, ...attrs } = Astro.props;
+const sizes = { xs: 'size-6 text-[9px]', sm: 'size-8 text-[11px]', md: 'size-10 text-xs', lg: 'size-12 text-sm', xl: 'size-16 text-base' };
+const dots = { xs: 'size-1.5', sm: 'size-2', md: 'size-2.5', lg: 'size-3', xl: 'size-3.5' };
+const tones = { online: 'bg-cetha-success', busy: 'bg-cetha-danger', away: 'bg-cetha-warning', offline: 'bg-cetha-text-inactive' };
+---
+<span class:list={['relative inline-flex shrink-0 items-center justify-center rounded-full bg-cetha-brand-soft font-semibold text-cetha-brand-text-strong ring-1 ring-cetha-line', sizes[size], className]} {...attrs}>
+  {src ? <img class="size-full rounded-full object-cover" src={src} alt={alt} loading="lazy" /> : <span aria-label={alt}>{initials ?? alt.split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase()}</span>}
+  {status && <span class:list={['absolute bottom-0 right-0 rounded-full ring-2 ring-cetha-surface', dots[size], tones[status]]} aria-label={status}></span>}
+</span>

@@ -1,0 +1,6 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'nav'> { label: string; side?: 'left' | 'right'; }
+const { label, side = 'left', class: className, ...attrs } = Astro.props;
+---
+<nav class:list={['flex w-16 shrink-0 flex-col items-center gap-2 border-cetha-line bg-cetha-surface px-2 py-3', side === 'left' ? 'border-r' : 'border-l', className]} aria-label={label} {...attrs}><slot name="header" /><div class="flex flex-1 flex-col items-center gap-1"><slot /></div><slot name="footer" /></nav>

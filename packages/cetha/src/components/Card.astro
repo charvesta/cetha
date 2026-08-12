@@ -1,0 +1,6 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'div'> { as?: 'div' | 'article' | 'section'; }
+const { as = 'div', class: className, ...attrs } = Astro.props; const Tag = as;
+---
+<Tag class:list={['overflow-hidden rounded-cetha-lg border border-cetha-line bg-cetha-surface text-cetha-text shadow-cetha-sm', className]} {...attrs}><slot /></Tag>

@@ -1,0 +1,9 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'li'> { title: string; description?: string; state?: 'complete' | 'current' | 'upcoming'; index: number; }
+const { title, description, state = 'upcoming', index, class: className, ...attrs } = Astro.props;
+---
+<li class:list={['group relative flex gap-3 pb-5 sm:block sm:pb-0 sm:pr-5', className]} aria-current={state === 'current' ? 'step' : undefined} {...attrs}>
+  <div class="flex flex-col items-center sm:flex-row"><span class:list={['relative z-10 inline-flex size-7 shrink-0 items-center justify-center rounded-full border text-xs font-semibold', state === 'complete' && 'border-cetha-brand bg-cetha-brand text-white', state === 'current' && 'border-cetha-brand bg-cetha-surface text-cetha-brand-text', state === 'upcoming' && 'border-cetha-line-strong bg-cetha-surface text-cetha-text-subtle']}>{state === 'complete' ? '✓' : index}</span><span class:list={['h-full w-px bg-cetha-line sm:h-px sm:w-full', state === 'complete' && 'bg-cetha-brand']} aria-hidden="true"></span></div>
+  <div class="min-w-0 sm:mt-2"><span class="block text-sm font-medium text-cetha-text-strong">{title}</span>{description && <span class="mt-0.5 block text-xs text-cetha-text-subtle">{description}</span>}</div>
+</li>

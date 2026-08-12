@@ -202,6 +202,10 @@
     animation: cetha-dropdown-in var(--cetha-duration-fast) ease-out;
   }
 
+  [data-cetha-command-palette][open] {
+    animation: cetha-dialog-in var(--cetha-duration-normal) ease-out;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       scroll-behavior: auto !important;

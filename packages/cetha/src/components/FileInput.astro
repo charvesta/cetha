@@ -1,0 +1,13 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends Omit<HTMLAttributes<'input'>, 'type'> { id: string; label: string; description?: string; accept?: string; multiple?: boolean; disabled?: boolean; }
+const { id, label, description, accept, multiple, disabled, class: className, ...attrs } = Astro.props;
+---
+<label class:list={['cetha-focus group flex min-h-32 cursor-pointer flex-col items-center justify-center rounded-cetha-lg border border-dashed border-cetha-line-strong bg-cetha-surface px-5 py-6 text-center transition-colors hover:border-cetha-brand hover:bg-cetha-brand-soft has-[:focus-visible]:border-cetha-brand has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-60', className]} for={id} data-cetha-file-input>
+  <span class="mb-2 inline-flex size-9 items-center justify-center rounded-full bg-cetha-control text-lg text-cetha-text-subtle" aria-hidden="true">↑</span>
+  <span class="text-sm font-medium text-cetha-text-strong">{label}</span>
+  {description && <span class="mt-1 text-xs text-cetha-text-subtle">{description}</span>}
+  <span class="mt-2 text-xs font-medium text-cetha-brand-text" data-cetha-file-name>Pilih file</span>
+  <input id={id} class="sr-only" type="file" {accept} {multiple} {disabled} {...attrs} />
+</label>
+<script>import { initFileInputs } from '../client/file-input'; initFileInputs(); document.addEventListener('astro:page-load', () => initFileInputs());</script>

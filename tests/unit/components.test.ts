@@ -16,6 +16,11 @@ import Tab from '../../packages/cetha/src/components/Tab.astro';
 import Sidebar from '../../packages/cetha/src/components/Sidebar.astro';
 import Dropdown from '../../packages/cetha/src/components/Dropdown.astro';
 import Surface from '../../packages/cetha/src/components/Surface.astro';
+import Avatar from '../../packages/cetha/src/components/Avatar.astro';
+import CommandPalette from '../../packages/cetha/src/components/CommandPalette.astro';
+import ProgressBar from '../../packages/cetha/src/components/ProgressBar.astro';
+import SelectableCard from '../../packages/cetha/src/components/SelectableCard.astro';
+import Step from '../../packages/cetha/src/components/Step.astro';
 
 describe('Cetha Astro components', () => {
   test('renders a native button with deterministic state', async () => {
@@ -208,5 +213,33 @@ describe('Cetha Astro components', () => {
     expect(html).toContain('data-cetha-sidebar-close');
     expect(html).toContain('tabindex="-1"');
     expect(html).toContain(' hidden');
+  });
+
+  test('renders accessible ERP identity and progress primitives', async () => {
+    const container = await AstroContainer.create();
+    const avatar = await container.renderToString(Avatar, { props: { alt: 'Nadia Putri', status: 'online' } });
+    const progress = await container.renderToString(ProgressBar, { props: { label: 'User quota', value: 72, showValue: true } });
+    expect(avatar).toContain('aria-label="Nadia Putri"');
+    expect(avatar).toContain('NP');
+    expect(progress).toContain('role="progressbar"');
+    expect(progress).toContain('aria-valuenow="72"');
+  });
+
+  test('renders native selectable cards and semantic steps', async () => {
+    const container = await AstroContainer.create();
+    const card = await container.renderToString(SelectableCard, { props: { name: 'plan', value: 'growth', title: 'Growth', checked: true } });
+    const step = await container.renderToString(Step, { props: { index: 2, title: 'Administration', state: 'current' } });
+    expect(card).toContain('type="radio"');
+    expect(card).toContain(' checked');
+    expect(step).toContain('aria-current="step"');
+  });
+
+  test('renders a closed command dialog with keyboard guidance', async () => {
+    const container = await AstroContainer.create();
+    const html = await container.renderToString(CommandPalette, { props: { id: 'erp-command', label: 'Search ERP' }, slots: { default: '<button role="option">Dashboard</button>' } });
+    expect(html).toContain('<dialog');
+    expect(html).toContain('data-cetha-command-input');
+    expect(html).toContain('Esc');
+    expect(html).not.toContain(' open');
   });
 });

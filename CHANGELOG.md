@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.4
+
+- Added ERP-oriented identity, navigation, onboarding, file upload, progress,
+  metric, card, selection, loading, notification, and activity primitives.
+- Added an accessible command palette with Ctrl/Command K, search filtering,
+  keyboard navigation, command items, and keyboard hint components.
+- Expanded the component catalogue, public package exports, unit coverage, and
+  desktop/mobile visual baselines for the new ERP patterns.
+
 ## 0.1.3
 
 - Consolidated Dropdown outside-click handling into one delegated listener per

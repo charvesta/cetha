@@ -1,0 +1,9 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'label'> { name: string; value: string; title: string; description?: string; checked?: boolean; disabled?: boolean; type?: 'radio' | 'checkbox'; }
+const { name, value, title, description, checked, disabled, type = 'radio', class: className, ...attrs } = Astro.props;
+---
+<label class:list={['cetha-focus group relative flex cursor-pointer gap-3 rounded-cetha-lg border border-cetha-line bg-cetha-surface p-4 transition-colors hover:border-cetha-line-strong has-[:checked]:border-cetha-brand has-[:checked]:bg-cetha-brand-soft has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-60', className]} {...attrs}>
+  <input class="mt-0.5 size-4 accent-cetha-brand" {type} {name} {value} {checked} {disabled} />
+  <span class="min-w-0 flex-1"><span class="block text-sm font-semibold text-cetha-text-strong">{title}</span>{description && <span class="mt-1 block text-xs leading-5 text-cetha-text-subtle">{description}</span>}<span class="mt-3 block"><slot /></span></span>
+</label>
