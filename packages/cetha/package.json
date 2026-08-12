@@ -1,6 +1,6 @@
 {
   "name": "@charvesta/cetha",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Astro-native, SSR-safe UI components for product interfaces.",
   "type": "module",
   "license": "MIT",
@@ -41,6 +41,7 @@
     "./client/data-table": "./src/client/data-table.ts",
     "./client/command-palette": "./src/client/command-palette.ts",
     "./client/file-input": "./src/client/file-input.ts",
+    "./client/popover": "./src/client/popover.ts",
     "./text": "./src/components/Text.astro",
     "./icon": "./src/components/Icon.astro",
     "./button": "./src/components/Button.astro",
@@ -87,7 +88,12 @@
     "./selectable-card": "./src/components/SelectableCard.astro",
     "./navigation-rail": "./src/components/NavigationRail.astro",
     "./loading-overlay": "./src/components/LoadingOverlay.astro",
-    "./notification-item": "./src/components/NotificationItem.astro"
+    "./notification-item": "./src/components/NotificationItem.astro",
+    "./accordion": "./src/components/Accordion.astro",
+    "./accordion-item": "./src/components/AccordionItem.astro",
+    "./collapsible": "./src/components/Collapsible.astro",
+    "./popover": "./src/components/Popover.astro",
+    "./tooltip": "./src/components/Tooltip.astro"
   },
   "types": "./src/index.ts",
   "peerDependencies": {

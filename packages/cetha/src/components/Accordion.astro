@@ -1,0 +1,22 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'div'> {
+  label?: string;
+  divided?: boolean;
+}
+
+const { label, divided = true, class: className, ...attrs } = Astro.props;
+---
+
+<div
+  class:list={[
+    'overflow-hidden rounded-cetha-lg border border-cetha-line bg-cetha-surface',
+    divided && '[&>details+details]:border-t [&>details+details]:border-cetha-line',
+    className,
+  ]}
+  role="region"
+  aria-label={label}
+  data-cetha-accordion
+  {...attrs}
+><slot /></div>

@@ -21,6 +21,11 @@ import CommandPalette from '../../packages/cetha/src/components/CommandPalette.a
 import ProgressBar from '../../packages/cetha/src/components/ProgressBar.astro';
 import SelectableCard from '../../packages/cetha/src/components/SelectableCard.astro';
 import Step from '../../packages/cetha/src/components/Step.astro';
+import Accordion from '../../packages/cetha/src/components/Accordion.astro';
+import AccordionItem from '../../packages/cetha/src/components/AccordionItem.astro';
+import Collapsible from '../../packages/cetha/src/components/Collapsible.astro';
+import Popover from '../../packages/cetha/src/components/Popover.astro';
+import Tooltip from '../../packages/cetha/src/components/Tooltip.astro';
 
 describe('Cetha Astro components', () => {
   test('renders a native button with deterministic state', async () => {
@@ -241,5 +246,26 @@ describe('Cetha Astro components', () => {
     expect(html).toContain('data-cetha-command-input');
     expect(html).toContain('Esc');
     expect(html).not.toContain(' open');
+  });
+
+  test('renders native disclosure components before enhancement', async () => {
+    const container = await AstroContainer.create();
+    const accordion = await container.renderToString(Accordion, { props: { label: 'Questions' }, slots: { default: '<details><summary>Question</summary></details>' } });
+    const item = await container.renderToString(AccordionItem, { props: { title: 'Billing', open: true }, slots: { default: 'Answer' } });
+    const collapsible = await container.renderToString(Collapsible, { props: { label: 'Advanced options' }, slots: { default: 'Configuration' } });
+    expect(accordion).toContain('data-cetha-accordion');
+    expect(item).toContain('<details');
+    expect(item).toContain(' open');
+    expect(collapsible).toContain('<summary');
+  });
+
+  test('connects popover and tooltip triggers to contextual content', async () => {
+    const container = await AstroContainer.create();
+    const popover = await container.renderToString(Popover, { props: { id: 'filters' }, slots: { trigger: 'Filters', default: 'Filter content' } });
+    const tooltip = await container.renderToString(Tooltip, { props: { id: 'export-tip', content: 'Export CSV' }, slots: { default: '<button>Export</button>' } });
+    expect(popover).toContain('aria-controls="filters-content"');
+    expect(popover).toContain('role="dialog"');
+    expect(tooltip).toContain('aria-describedby="export-tip"');
+    expect(tooltip).toContain('role="tooltip"');
   });
 });

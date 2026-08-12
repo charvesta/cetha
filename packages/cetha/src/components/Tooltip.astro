@@ -1,0 +1,29 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'span'> {
+  id: string;
+  content: string;
+  side?: 'top' | 'right' | 'bottom' | 'left';
+}
+
+const { id, content, side = 'top', class: className, ...attrs } = Astro.props;
+const positions = {
+  top: 'bottom-full left-1/2 mb-2 -translate-x-1/2',
+  right: 'left-full top-1/2 ml-2 -translate-y-1/2',
+  bottom: 'left-1/2 top-full mt-2 -translate-x-1/2',
+  left: 'right-full top-1/2 mr-2 -translate-y-1/2',
+};
+---
+
+<span class:list={['group/tooltip relative inline-flex', className]} data-cetha-tooltip {...attrs}>
+  <span class="inline-flex" aria-describedby={id}><slot /></span>
+  <span
+    id={id}
+    class:list={[
+      'pointer-events-none invisible absolute z-50 w-max max-w-56 rounded-cetha-sm bg-cetha-text-strong px-2 py-1 text-[11px] font-medium leading-4 text-cetha-surface opacity-0 shadow-cetha-sm transition-opacity group-hover/tooltip:visible group-hover/tooltip:opacity-100 group-focus-within/tooltip:visible group-focus-within/tooltip:opacity-100',
+      positions[side],
+    ]}
+    role="tooltip"
+  >{content}</span>
+</span>

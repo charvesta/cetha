@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.5
+
+- Added native-first Accordion, AccordionItem, and Collapsible disclosure
+  components that remain usable without browser JavaScript.
+- Added Popover with outside-click and Escape handling, plus a CSS-driven
+  Tooltip that supports hover and keyboard focus across four placements.
+- Expanded public exports, catalogue examples, and component test coverage for
+  the new disclosure and floating-interface primitives.
+
 ## 0.1.4
 
 - Added ERP-oriented identity, navigation, onboarding, file upload, progress,

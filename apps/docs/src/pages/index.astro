@@ -1,5 +1,7 @@
 ---
 import {
+  Accordion,
+  AccordionItem,
   Alert,
   Avatar,
   AvatarGroup,
@@ -11,6 +13,7 @@ import {
   CardFooter,
   CardHeader,
   Checkbox,
+  Collapsible,
   CommandItem,
   CommandPalette,
   Dialog,
@@ -29,6 +32,7 @@ import {
   NotificationItem,
   Pagination,
   PasswordInput,
+  Popover,
   ProgressBar,
   RadioGroup,
   Select,
@@ -47,6 +51,7 @@ import {
   Text,
   Textarea,
   ToastRegion,
+  Tooltip,
 } from '@charvesta/cetha';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
@@ -187,7 +192,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </section>
 
         <section id="overlays" class="doc-section">
-          <header><p>04</p><div><h2>Overlays</h2><span>Native dialog and details-first dropdown, progressively enhanced.</span></div></header>
+          <header><p>05</p><div><h2>Overlays</h2><span>Disclosure, contextual content, and floating guidance with native foundations.</span></div></header>
           <div class="demo row-demo">
             <Button variant="primary" data-cetha-dialog-open="edit-dialog">Open dialog</Button>
             <Dropdown id="actions" align="end">
@@ -197,6 +202,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <button class="menu-item danger" role="menuitem">Delete</button>
             </Dropdown>
             <Button id="toast-trigger">Show toast</Button>
+            <Popover id="filter-popover" align="end"><span slot="trigger" class="popover-trigger">Filter options</span><strong>Report period</strong><p class="popover-copy">Choose a period before exporting the report.</p><Select aria-label="Report period"><option>Last 30 days</option><option>This quarter</option></Select></Popover>
+            <Tooltip id="export-tip" content="Download report as CSV"><Button aria-label="Export report" variant="ghost"><Icon name="arrowRight" size={16} /> Export</Button></Tooltip>
+          </div>
+          <div class="demo disclosure-demo">
+            <Accordion label="Account questions"><AccordionItem title="Can I change my plan?" description="Plan and billing controls." open>Yes. Administrators can change the active plan from billing settings.</AccordionItem><AccordionItem title="How is usage calculated?">Usage is calculated from active users across all company branches.</AccordionItem></Accordion>
+            <Collapsible label="Advanced options"><Surface bordered class="p-4">Configure tax rounding and invoice numbering.</Surface></Collapsible>
           </div>
         </section>
 
@@ -305,6 +316,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .erp-stats { margin-left: auto; display: flex; gap: 32px; }
   .erp-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .erp-shell { display: flex; overflow: hidden; min-height: 144px; border: 1px solid var(--cetha-line); border-radius: var(--radius-cetha-lg); background: var(--cetha-base); }
+  .popover-trigger { display: inline-flex; height: 36px; align-items: center; border: 1px solid var(--cetha-line); border-radius: var(--radius-cetha-md); background: var(--cetha-surface); padding: 0 12px; color: var(--cetha-text-strong); font-size: 14px; font-weight: 500; cursor: pointer; }
+  .popover-copy { margin: 6px 0 12px; color: var(--cetha-text-subtle); font-size: 12px; line-height: 1.6; }
+  .disclosure-demo { display: grid; gap: 16px; }
   main { width: min(1240px, calc(100% - 48px)); margin: 0 auto; }
   .intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 48px; min-height: 510px; padding: 96px 0 72px; border-bottom: 1px solid var(--cetha-line); }
   .eyebrow { margin: 0 0 24px; color: var(--cetha-brand-text); font-size: 11px; font-weight: 600; text-transform: uppercase; }

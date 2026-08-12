@@ -1,0 +1,37 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'details'> {
+  id: string;
+  align?: 'start' | 'center' | 'end';
+  side?: 'top' | 'bottom';
+  open?: boolean;
+}
+
+const { id, align = 'start', side = 'bottom', open = false, class: className, ...attrs } = Astro.props;
+const alignment = { start: 'left-0', center: 'left-1/2 -translate-x-1/2', end: 'right-0' };
+---
+
+<details id={id} class:list={['group relative inline-block', className]} {open} data-cetha-popover {...attrs}>
+  <summary
+    class="cetha-focus list-none rounded-cetha-md [&::-webkit-details-marker]:hidden"
+    aria-haspopup="dialog"
+    aria-controls={`${id}-content`}
+  ><slot name="trigger" /></summary>
+  <div
+    id={`${id}-content`}
+    class:list={[
+      'absolute z-50 w-72 rounded-cetha-lg border border-cetha-line bg-cetha-raised p-4 text-sm text-cetha-text shadow-cetha-md',
+      alignment[align],
+      side === 'top' ? 'bottom-full mb-2' : 'top-full mt-2',
+    ]}
+    role="dialog"
+    data-cetha-popover-content
+  ><slot /></div>
+</details>
+
+<script>
+  import { initPopovers } from '../client/popover';
+  initPopovers();
+  document.addEventListener('astro:page-load', () => initPopovers());
+</script>

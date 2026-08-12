@@ -1,0 +1,23 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Icon from './Icon.astro';
+
+interface Props extends HTMLAttributes<'details'> {
+  label: string;
+  open?: boolean;
+  disabled?: boolean;
+}
+
+const { label, open = false, disabled = false, class: className, ...attrs } = Astro.props;
+---
+
+<details class:list={['group', className]} {open} data-cetha-collapsible {...attrs}>
+  <summary
+    class:list={[
+      'cetha-focus flex w-fit list-none items-center gap-2 rounded-cetha-md px-2 py-1.5 text-sm font-medium text-cetha-text-strong [&::-webkit-details-marker]:hidden',
+      disabled ? 'pointer-events-none cursor-not-allowed opacity-50' : 'cursor-pointer hover:bg-cetha-control',
+    ]}
+    aria-disabled={disabled ? 'true' : undefined}
+  ><Icon name="chevronDown" size={15} class="-rotate-90 transition-transform group-open:rotate-0" />{label}</summary>
+  <div class="mt-2 text-sm text-cetha-text"><slot /></div>
+</details>

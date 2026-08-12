@@ -100,6 +100,30 @@ test('reduces dropdown motion when requested', async ({ page }) => {
   expect(duration).toBeLessThanOrEqual(0.001);
 });
 
+test('supports native disclosure and contextual floating content', async ({ page }) => {
+  const question = page.getByText('Can I change my plan?');
+  const accordionItem = question.locator('xpath=ancestor::details');
+  await expect(accordionItem).toHaveAttribute('open', '');
+  await question.click();
+  await expect(accordionItem).not.toHaveAttribute('open', '');
+
+  const advanced = page.getByText('Advanced options');
+  await advanced.click();
+  await expect(page.getByText('Configure tax rounding and invoice numbering.')).toBeVisible();
+
+  const popover = page.locator('#filter-popover');
+  await page.getByText('Filter options').click();
+  await expect(popover).toHaveAttribute('open', '');
+  await expect(page.getByRole('dialog').filter({ hasText: 'Report period' })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(popover).not.toHaveAttribute('open', '');
+  await expect(popover.locator('summary')).toBeFocused();
+
+  const exportButton = page.getByRole('button', { name: 'Export report' });
+  await exportButton.focus();
+  await expect(page.getByRole('tooltip', { name: 'Download report as CSV' })).toBeVisible();
+});
+
 test('switches tabs on click and moves the active visual state', async ({ page }) => {
   const general = page.getByRole('tab', { name: 'General' });
   const security = page.getByRole('tab', { name: 'Security' });
