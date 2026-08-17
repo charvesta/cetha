@@ -9,8 +9,8 @@ test('renders the Astro-native catalogue without console errors', async ({ page 
   page.on('pageerror', (error) => errors.push(error.message));
   page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
 
-  await expect(page.getByRole('heading', { name: /Clear interfaces/i })).toBeVisible();
-  await expect(page.getByText('Astro-native · SSR-safe')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Cetha UI', exact: true })).toBeVisible();
+  await expect(page.getByText('Astro-native component library')).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Forms' })).toBeVisible();
   expect(errors).toEqual([]);
 });
@@ -161,7 +161,7 @@ test('switches tabs on click and moves the active visual state', async ({ page }
   await expect(general).toHaveAttribute('aria-selected', 'false');
   await expect(page.getByRole('tabpanel', { name: 'Security' })).toBeVisible();
   await expect(page.getByRole('tabpanel', { name: 'General' })).toBeHidden();
-  await expect(security).toHaveCSS('border-bottom-color', 'rgb(79, 70, 229)');
+  await expect(security).toHaveCSS('border-bottom-color', 'rgb(59, 102, 245)');
 });
 
 test('removes breadcrumb markers and gives table cells horizontal padding', async ({ page }) => {
@@ -236,9 +236,9 @@ test('uses compact control density and switches the scoped color mode', async ({
   await expect(page.getByRole('button', { name: 'Small' })).toHaveCSS('height', '32px');
   await expect(page.getByRole('button', { name: 'Default' })).toHaveCSS('height', '36px');
   await expect(page.getByRole('button', { name: 'Large' })).toHaveCSS('height', '40px');
-  await expect(page.getByLabel('Small input')).toHaveCSS('height', '32px');
+  await expect(page.getByLabel('Small input')).toHaveCSS('height', '28px');
   await expect(page.getByLabel('Default input')).toHaveCSS('height', '36px');
-  await expect(page.getByLabel('Large input')).toHaveCSS('height', '40px');
+  await expect(page.getByLabel('Large input')).toHaveCSS('height', '44px');
   await expect(page.getByRole('button', { name: 'Small' })).toHaveCSS('border-radius', '4px');
   await expect(page.getByLabel('Small input')).toHaveCSS('border-radius', '4px');
 
@@ -254,7 +254,7 @@ test('uses compact control density and switches the scoped color mode', async ({
   await page.getByRole('button', { name: /Dark mode/ }).click();
   await expect(root).toHaveAttribute('data-cetha-mode', 'dark');
   await expect(page.getByRole('button', { name: /Light mode/ })).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(17, 19, 22)');
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(25, 25, 25)');
 });
 
 test('keeps focus treatment and icon geometry aligned', async ({ page }) => {

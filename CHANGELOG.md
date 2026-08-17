@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.7
+
+- Refined the shared visual foundation with calmer neutral surfaces, softer
+  elevation, compact typography, and more deliberate control states.
+- Improved Button variants, Accordion spacing, Collapsible alignment, searchable
+  Combobox presentation, PasswordInput controls, CommandPalette, and ContextMenu.
+- Clarified Input sizing and refreshed documentation layout, interaction tests,
+  package verification, and desktop/mobile visual baselines.
+
 ## 0.1.6
 
 - Added Combobox and ComboboxOption with filtering, keyboard navigation,

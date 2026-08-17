@@ -21,10 +21,10 @@ const {
 } = Astro.props;
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-cetha-brand text-white hover:bg-cetha-brand-strong',
-  secondary: 'border border-cetha-line bg-cetha-surface text-cetha-text-strong hover:bg-cetha-control',
-  ghost: 'bg-transparent text-cetha-text hover:bg-cetha-control',
-  danger: 'bg-cetha-danger text-white hover:brightness-95',
+  primary: 'border-cetha-brand bg-cetha-brand text-white shadow-cetha-sm hover:border-cetha-brand-strong hover:bg-cetha-brand-strong',
+  secondary: 'border-cetha-line bg-cetha-surface text-cetha-text-strong shadow-cetha-sm hover:border-cetha-line-strong hover:bg-cetha-control',
+  ghost: 'border-transparent bg-transparent text-cetha-text shadow-none hover:bg-cetha-control hover:text-cetha-text-strong',
+  danger: 'border-cetha-danger bg-cetha-danger text-white shadow-cetha-sm hover:brightness-95',
 };
 const sizes: Record<Size, string> = {
   sm: 'h-8 rounded-cetha-sm px-3 text-xs',
@@ -36,10 +36,10 @@ const sizes: Record<Size, string> = {
 <button
   type={type}
   class:list={[
-    'cetha-focus inline-flex items-center justify-center gap-2 font-medium transition-transform disabled:opacity-50',
+    'cetha-focus inline-flex appearance-none items-center justify-center gap-2 whitespace-nowrap border font-medium leading-none transition-[background-color,border-color,color,box-shadow] disabled:opacity-50',
     variants[variant],
     sizes[size],
-    loading ? 'cursor-wait active:translate-y-0' : 'active:translate-y-px disabled:cursor-not-allowed',
+    loading ? 'cursor-wait' : 'disabled:cursor-not-allowed',
     className,
   ]}
   disabled={disabled || loading}

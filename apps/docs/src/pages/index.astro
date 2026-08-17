@@ -64,30 +64,34 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Cetha UI — Astro-native components">
+  <aside class="library-sidebar" aria-label="Library navigation">
+    <a class="sidebar-brand" href="/" aria-label="Cetha UI home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><strong>Cetha</strong></a>
+    <button class="sidebar-search" type="button" data-cetha-command-open="erp-command"><Icon name="search" size={15} /><span>Search...</span><Kbd>⌘ K</Kbd></button>
+    <nav>
+      <a class="active" href="#foundations">Home</a>
+      <p>Components</p>
+      <a href="#foundations">Foundations</a><a href="#forms">Forms</a><a href="#feedback">Feedback</a><a href="#erp">ERP patterns</a><a href="#overlays">Overlays</a><a href="#navigation">Navigation</a><a href="#data">Data</a>
+    </nav>
+    <a class="sidebar-repo" href="https://github.com/charvesta/cetha">GitHub repository <Icon name="arrowRight" size={14} /></a>
+  </aside>
   <header class="site-header">
     <a class="brand" href="/" aria-label="Cetha UI home">
       <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
       <span>Cetha UI</span>
     </a>
-    <nav aria-label="Primary">
-      <a href="#foundations">Foundations</a>
-      <a href="#forms">Forms</a>
-      <a href="#overlays">Overlays</a>
-      <a href="#data">Data</a>
-    </nav>
+    <span class="package-version">@charvesta/cetha <Badge>v0.1.7</Badge></span>
     <div class="header-actions">
       <Button size="sm" variant="ghost" data-cetha-command-open="erp-command"><Icon name="search" size={16} /> Cari <Kbd>⌘ K</Kbd></Button>
       <Button id="mode-toggle" size="sm" variant="ghost" aria-pressed="false"><Icon name="settings" size={16} /> <span data-mode-label>Dark mode</span></Button>
-      <a class="repo-link" href="https://github.com/charvesta/cetha">GitHub</a>
     </div>
   </header>
 
   <main>
     <section class="intro">
       <div>
-        <p class="eyebrow">Astro-native · SSR-safe</p>
-        <h1>Clear interfaces,<br />native by design.</h1>
-        <p class="lead">Semantic Astro components for operational products. No framework runtime, no client island, and no styling configuration in the consuming project.</p>
+        <p class="eyebrow">Astro-native component library</p>
+        <h1>Cetha UI</h1>
+        <p class="lead">Accessible, semantic components for calm operational products. Server-rendered by default, progressively enhanced where interaction needs it.</p>
         <div class="intro-actions">
           <Button variant="primary" data-cetha-dialog-open="install-dialog">Install Cetha</Button>
           <Link href="#foundations">Browse components <Icon name="arrowRight" size={16} /></Link>
@@ -147,9 +151,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <header><p>02</p><div><h2>Forms</h2><span>Native controls with deterministic IDs and visible relationships.</span></div></header>
           <Surface bordered class="demo form-demo">
             <div class="control-sizes" aria-label="Input sizes">
-              <Input size="sm" aria-label="Small input" value="Small · 32px" />
+              <Input size="sm" aria-label="Small input" value="Small · 28px" />
               <Input size="md" aria-label="Default input" value="Default · 36px" />
-              <Input size="lg" aria-label="Large input" value="Large · 40px" />
+              <Input size="lg" aria-label="Large input" value="Large · 44px" />
             </div>
             <div class="two-columns">
               <Field id="workspace-name" label="Workspace name" description="Shown to everyone in this workspace." required>
@@ -300,7 +304,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       root.dataset.cethaMode = dark ? 'dark' : 'light';
       trigger.setAttribute('aria-pressed', String(dark));
       if (label) label.textContent = dark ? 'Light mode' : 'Dark mode';
-      if (themeColor) themeColor.content = dark ? '#111316' : '#f7f8fa';
+      if (themeColor) themeColor.content = dark ? '#191919' : '#fcfcfc';
     });
     trigger.dataset.bound = 'true';
   };
@@ -317,14 +321,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 </script>
 
 <style>
-  .site-header { position: sticky; top: 0; z-index: 30; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; min-height: 64px; padding: 0 32px; border-bottom: 1px solid var(--cetha-line); background: color-mix(in srgb, var(--cetha-base) 92%, transparent); backdrop-filter: blur(16px); }
+  .library-sidebar { position: fixed; inset: 0 auto 0 0; z-index: 40; display: flex; width: 272px; flex-direction: column; border-right: 1px solid var(--cetha-line); background: var(--cetha-base); padding: 0 12px 16px; }
+  .sidebar-brand { display: flex; height: 48px; align-items: center; gap: 9px; padding: 0 8px; color: var(--cetha-text-strong); font-size: 14px; text-decoration: none; }
+  .sidebar-search { display: flex; width: 100%; align-items: center; gap: 8px; margin: 12px 0; border: 1px solid var(--cetha-line); border-radius: var(--radius-cetha-md); background: var(--cetha-surface); padding: 8px 10px; color: var(--cetha-text-subtle); font-size: 13px; text-align: left; box-shadow: var(--shadow-cetha-sm); cursor: pointer; }
+  .sidebar-search span { flex: 1; }
+  .library-sidebar nav { display: flex; min-height: 0; flex: 1; flex-direction: column; gap: 2px; overflow-y: auto; padding: 4px; }
+  .library-sidebar nav p { margin: 18px 8px 6px; color: var(--cetha-text-inactive); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+  .library-sidebar nav a { border-radius: var(--radius-cetha-md); padding: 8px 10px; color: var(--cetha-text-subtle); font-size: 13px; text-decoration: none; transition: background var(--cetha-duration-fast), color var(--cetha-duration-fast); }
+  .library-sidebar nav a:hover, .library-sidebar nav a.active { background: var(--cetha-control); color: var(--cetha-text-strong); }
+  .sidebar-repo { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--cetha-line); padding: 14px 10px 0; color: var(--cetha-text-subtle); font-size: 12px; text-decoration: none; }
+  .site-header { position: sticky; top: 0; z-index: 30; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; min-height: 48px; margin-left: 272px; padding: 0 16px; border-bottom: 1px solid var(--cetha-line); background: color-mix(in srgb, var(--cetha-base) 94%, transparent); backdrop-filter: blur(12px); }
   .brand { display: inline-flex; align-items: center; gap: 10px; width: fit-content; color: var(--cetha-text-strong); font-size: 14px; font-weight: 600; text-decoration: none; }
   .brand-mark { display: flex; align-items: end; gap: 2px; height: 18px; }
   .brand-mark i { display: block; width: 4px; border-radius: 2px; background: var(--cetha-brand); }
   .brand-mark i:nth-child(1) { height: 8px; } .brand-mark i:nth-child(2) { height: 18px; } .brand-mark i:nth-child(3) { height: 12px; }
-  .site-header nav { display: flex; align-items: center; gap: 24px; }
-  .site-header nav a, .repo-link { color: var(--cetha-text-subtle); font-size: 12px; font-weight: 500; text-decoration: none; }
-  .site-header nav a:hover, .repo-link:hover { color: var(--cetha-text-strong); }
+  .package-version { justify-self: center; display: flex; align-items: center; gap: 8px; color: var(--cetha-text-subtle); font-family: "IBM Plex Mono", monospace; font-size: 12px; }
   .header-actions { justify-self: end; display: flex; align-items: center; gap: 12px; }
   .erp-stack { display: grid; gap: 24px; }
   .erp-row { display: flex; align-items: center; gap: 20px; }
@@ -338,31 +349,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .input-affix { display: inline-flex; height: 100%; align-items: center; background: var(--cetha-control); padding: 0 10px; color: var(--cetha-text-subtle); font-size: 12px; white-space: nowrap; }
   .context-target { display: flex; min-height: 72px; align-items: center; justify-content: space-between; border: 1px dashed var(--cetha-line-strong); border-radius: var(--radius-cetha-md); padding: 16px; color: var(--cetha-text-strong); }
   .context-target span { color: var(--cetha-text-subtle); font-size: 12px; font-weight: 400; }
-  main { width: min(1240px, calc(100% - 48px)); margin: 0 auto; }
-  .intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 48px; min-height: 510px; padding: 96px 0 72px; border-bottom: 1px solid var(--cetha-line); }
-  .eyebrow { margin: 0 0 24px; color: var(--cetha-brand-text); font-size: 11px; font-weight: 600; text-transform: uppercase; }
-  h1 { max-width: 760px; margin: 0; color: var(--cetha-text-strong); font-size: clamp(48px, 7vw, 88px); font-weight: 500; line-height: .95; letter-spacing: -.055em; }
-  .lead { max-width: 620px; margin: 28px 0 0; color: var(--cetha-text-subtle); font-size: 16px; line-height: 1.75; }
-  .intro-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 32px; }
+  main { width: min(1120px, calc(100% - 320px)); margin: 0 auto 0 calc(272px + max(24px, (100vw - 272px - 1120px) / 2)); }
+  .intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 48px; min-height: 330px; padding: 64px 24px 48px; border-right: 1px solid var(--cetha-line); border-bottom: 1px solid var(--cetha-line); }
+  .eyebrow { margin: 0 0 14px; color: var(--cetha-brand-text); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+  h1 { max-width: 760px; margin: 0; color: var(--cetha-text-strong); font-size: clamp(42px, 5vw, 64px); font-weight: 600; line-height: 1; letter-spacing: -.045em; }
+  .lead { max-width: 620px; margin: 20px 0 0; color: var(--cetha-text-subtle); font-size: 14px; line-height: 1.65; }
+  .intro-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 24px; }
   .install-line { display: flex; align-items: center; gap: 16px; padding-bottom: 4px; }
   .install-line code { color: var(--cetha-text-subtle); font-size: 12px; }
-  .docs-grid { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 56px; padding: 72px 0 120px; }
+  .docs-grid { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 32px; border-right: 1px solid var(--cetha-line); padding: 48px 24px 120px; }
   .toc { position: sticky; top: 96px; display: grid; align-content: start; gap: 12px; height: fit-content; }
   .toc p { margin: 0 0 4px; color: var(--cetha-text-strong); font-size: 12px; font-weight: 600; }
   .toc a { color: var(--cetha-text-subtle); font-size: 12px; text-decoration: none; }
   .toc a:hover { color: var(--cetha-brand-text); }
   .catalogue { min-width: 0; }
-  .doc-section { scroll-margin-top: 90px; padding: 0 0 88px; }
+  .doc-section { scroll-margin-top: 64px; padding: 0 0 72px; }
   .doc-section > header { display: grid; grid-template-columns: 48px 1fr; gap: 16px; margin-bottom: 28px; }
   .doc-section > header > p { margin: 5px 0 0; color: var(--cetha-text-inactive); font-family: "IBM Plex Mono", monospace; font-size: 11px; }
   .doc-section h2 { margin: 0; color: var(--cetha-text-strong); font-size: 24px; font-weight: 600; }
   .doc-section header span { display: block; margin-top: 6px; color: var(--cetha-text-subtle); font-size: 13px; }
-  .demo { padding: 28px; }
+  .demo { margin-top: 12px; border-radius: var(--radius-cetha-lg); background: var(--cetha-surface); padding: 24px; box-shadow: inset 0 0 0 1px var(--cetha-line); }
   .type-demo { display: grid; gap: 14px; }
   .row-demo { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
   .density-demo { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
   .density-demo > span { color: var(--cetha-text-inactive); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
-  .icon-demo { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--cetha-line); padding: 1px; }
+  .icon-demo { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; overflow: hidden; background: var(--cetha-line); padding: 1px; }
   .icon-demo > span { display: grid; place-items: center; gap: 8px; min-height: 76px; background: var(--cetha-base); color: var(--cetha-text-strong); }
   .icon-demo small { color: var(--cetha-text-subtle); font-size: 9px; }
   .form-demo { display: grid; gap: 22px; padding: 28px; }
@@ -386,9 +397,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .code-block { overflow-x: auto; margin: 0; border-radius: var(--radius-cetha-md); background: var(--cetha-text-strong); padding: 16px; color: var(--cetha-surface); font-size: 12px; }
   .dialog-copy { margin: 16px 0 0; color: var(--cetha-text-subtle); font-size: 13px; line-height: 1.7; }
   @media (max-width: 800px) {
-    .site-header { grid-template-columns: 1fr auto; padding: 0 18px; }
-    .site-header nav { display: none; }
-    main { width: min(100% - 32px, 720px); }
+    .library-sidebar { display: none; }
+    .site-header { grid-template-columns: 1fr auto; margin-left: 0; padding: 0 14px; }
+    .package-version { display: none; }
+    main { width: min(100% - 24px, 720px); margin: 0 auto; }
     .intro { grid-template-columns: 1fr; min-height: auto; padding: 72px 0 56px; }
     .install-line { align-items: flex-start; flex-direction: column; }
     .docs-grid { grid-template-columns: 1fr; padding-top: 52px; }

@@ -110,7 +110,7 @@ describe('Cetha Astro components', () => {
 
   test.each([
     [Button, 'h-8', 'h-9', 'h-10'],
-    [Input, 'h-8', 'h-9', 'h-10'],
+    [Input, 'h-7', 'h-9', 'h-11'],
     [Select, 'h-8', 'h-9', 'h-10'],
   ] as const)('renders deterministic sm, md, and lg control sizes', async (Component, smClass, mdClass, lgClass) => {
     const container = await AstroContainer.create();
@@ -130,7 +130,7 @@ describe('Cetha Astro components', () => {
     const html = await container.renderToString(PasswordInput, {
       props: { id: 'secret', label: 'Secret', showLabel: 'Show', hideLabel: 'Hide', size: 'sm' },
     });
-    expect(html).toContain('h-8');
+    expect(html).toContain('h-7');
     expect(html).toContain('rounded-cetha-sm');
     expect(html).toContain('for="secret"');
     expect(html).toContain('data-cetha-password');
@@ -157,7 +157,7 @@ describe('Cetha Astro components', () => {
     const html = await container.renderToString(Button, { props: { loading: true }, slots: { default: 'Saving' } });
     expect(html).toContain('cursor-wait');
     expect(html).not.toContain('pointer-events-none');
-    expect(html).toContain('active:translate-y-0');
+    expect(html).not.toContain('translate-y');
     expect(html).toContain('aria-busy="true"');
     expect(html).toContain(' disabled');
   });
