@@ -26,6 +26,11 @@ import AccordionItem from '../../packages/cetha/src/components/AccordionItem.ast
 import Collapsible from '../../packages/cetha/src/components/Collapsible.astro';
 import Popover from '../../packages/cetha/src/components/Popover.astro';
 import Tooltip from '../../packages/cetha/src/components/Tooltip.astro';
+import ButtonGroup from '../../packages/cetha/src/components/ButtonGroup.astro';
+import Combobox from '../../packages/cetha/src/components/Combobox.astro';
+import InputGroup from '../../packages/cetha/src/components/InputGroup.astro';
+import Sheet from '../../packages/cetha/src/components/Sheet.astro';
+import ContextMenu from '../../packages/cetha/src/components/ContextMenu.astro';
 
 describe('Cetha Astro components', () => {
   test('renders a native button with deterministic state', async () => {
@@ -267,5 +272,26 @@ describe('Cetha Astro components', () => {
     expect(popover).toContain('role="dialog"');
     expect(tooltip).toContain('aria-describedby="export-tip"');
     expect(tooltip).toContain('role="tooltip"');
+  });
+
+  test('renders grouped controls as accessible single units', async () => {
+    const container = await AstroContainer.create();
+    const buttons = await container.renderToString(ButtonGroup, { props: { label: 'View mode' }, slots: { default: '<button>List</button><button>Grid</button>' } });
+    const input = await container.renderToString(InputGroup, { props: { invalid: true }, slots: { start: 'https://', default: '<input aria-label="Domain">' } });
+    expect(buttons).toContain('role="group"');
+    expect(buttons).toContain('aria-label="View mode"');
+    expect(input).toContain('aria-invalid="true"');
+  });
+
+  test('renders combobox, sheet, and context menu relationships', async () => {
+    const container = await AstroContainer.create();
+    const combobox = await container.renderToString(Combobox, { props: { id: 'branch', label: 'Branch', name: 'branch' }, slots: { default: '<button role="option">Jakarta</button>' } });
+    const sheet = await container.renderToString(Sheet, { props: { id: 'filters', title: 'Filters', closeLabel: 'Close', side: 'right' } });
+    const context = await container.renderToString(ContextMenu, { props: { id: 'invoice-menu', label: 'Invoice actions' }, slots: { trigger: 'Invoice', default: '<button role="menuitem">Open</button>' } });
+    expect(combobox).toContain('role="combobox"');
+    expect(combobox).toContain('aria-controls="branch-listbox"');
+    expect(sheet).toContain('data-cetha-sheet');
+    expect(sheet).toContain('data-side="right"');
+    expect(context).toContain('role="menu"');
   });
 });

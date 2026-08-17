@@ -1,0 +1,10 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'div'> { label: string; orientation?: 'horizontal' | 'vertical'; }
+const { label, orientation = 'horizontal', class: className, ...attrs } = Astro.props;
+---
+<div class:list={[
+  'inline-flex [&>*]:relative [&>*]:z-0 [&>*:focus-visible]:z-10',
+  orientation === 'horizontal' ? '[&>*]:rounded-none [&>*:first-child]:rounded-l-cetha-md [&>*:last-child]:rounded-r-cetha-md [&>*+*]:-ml-px' : 'flex-col [&>*]:rounded-none [&>*:first-child]:rounded-t-cetha-md [&>*:last-child]:rounded-b-cetha-md [&>*+*]:-mt-px',
+  className,
+]} role="group" aria-label={label} aria-orientation={orientation} data-cetha-button-group {...attrs}><slot /></div>

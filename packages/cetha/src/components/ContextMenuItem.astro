@@ -1,0 +1,6 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'button'> { danger?: boolean; shortcut?: string; }
+const { danger = false, shortcut, class: className, ...attrs } = Astro.props;
+---
+<button type="button" class:list={['cetha-focus flex w-full items-center gap-3 rounded-cetha-sm px-3 py-2 text-left text-sm hover:bg-cetha-control disabled:cursor-not-allowed disabled:opacity-50', danger ? 'text-cetha-danger' : 'text-cetha-text', className]} role="menuitem" {...attrs}><slot name="icon" /><span class="flex-1"><slot /></span>{shortcut && <span class="text-[11px] text-cetha-text-inactive">{shortcut}</span>}</button>

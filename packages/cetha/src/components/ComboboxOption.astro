@@ -1,0 +1,6 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'button'> { value: string; label?: string; selected?: boolean; disabled?: boolean; }
+const { value, label = value, selected = false, disabled = false, class: className, ...attrs } = Astro.props;
+---
+<button type="button" class:list={['cetha-focus flex w-full items-center gap-2 rounded-cetha-sm px-3 py-2 text-left text-sm text-cetha-text hover:bg-cetha-control aria-selected:bg-cetha-brand-soft aria-selected:text-cetha-brand-text-strong disabled:cursor-not-allowed disabled:opacity-50', className]} role="option" aria-selected={selected} {disabled} data-cetha-combobox-option data-value={value} data-label={label} {...attrs}><span class="flex-1"><slot />{!Astro.slots.has('default') && label}</span>{selected && <span aria-hidden="true">✓</span>}</button>

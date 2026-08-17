@@ -1,0 +1,14 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Icon from './Icon.astro';
+interface Props extends HTMLAttributes<'div'> { id: string; label: string; placeholder?: string; value?: string; name?: string; emptyLabel?: string; disabled?: boolean; }
+const { id, label, placeholder = 'Cari atau pilih…', value = '', name, emptyLabel = 'Tidak ada hasil', disabled = false, class: className, ...attrs } = Astro.props;
+---
+<div class:list={['relative', className]} data-cetha-combobox {...attrs}>
+  <label class="sr-only" for={`${id}-input`}>{label}</label>
+  <div class="relative"><Icon name="search" size={16} class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-cetha-text-subtle" /><input id={`${id}-input`} class="cetha-focus h-9 w-full rounded-cetha-md border border-cetha-line bg-cetha-surface pl-9 pr-8 text-sm text-cetha-text-strong placeholder:text-cetha-text-inactive hover:border-cetha-line-strong" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls={`${id}-listbox`} placeholder={placeholder} value={value} autocomplete="off" {disabled} data-cetha-combobox-input /><Icon name="chevronDown" size={15} class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-cetha-text-subtle" /></div>
+  {name && <input type="hidden" {name} value={value} data-cetha-combobox-value />}
+  <div id={`${id}-listbox`} class="absolute z-50 mt-1 hidden max-h-60 w-full overflow-y-auto rounded-cetha-md border border-cetha-line bg-cetha-raised p-1 shadow-cetha-md" role="listbox" aria-label={label} data-cetha-combobox-list><slot /></div>
+  <p class="absolute z-50 mt-1 hidden w-full rounded-cetha-md border border-cetha-line bg-cetha-raised px-3 py-6 text-center text-sm text-cetha-text-subtle shadow-cetha-md" data-cetha-combobox-empty>{emptyLabel}</p>
+</div>
+<script>import { initComboboxes } from '../client/combobox'; initComboboxes(); document.addEventListener('astro:page-load', () => initComboboxes());</script>

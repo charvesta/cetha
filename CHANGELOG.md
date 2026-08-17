@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.6
+
+- Added Combobox and ComboboxOption with filtering, keyboard navigation,
+  form-value synchronization, and change events.
+- Added ButtonGroup and InputGroup primitives for visually connected controls.
+- Added Sheet with a Drawer alias, plus ContextMenu and ContextMenuItem with
+  pointer and keyboard interaction support.
+- Expanded public exports, catalogue examples, unit tests, browser coverage,
+  and desktop/mobile visual baselines for the new components.
+
 ## 0.1.5
 
 - Added native-first Accordion, AccordionItem, and Collapsible disclosure

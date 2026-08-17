@@ -1,0 +1,7 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'div'> { id: string; label: string; }
+const { id, label, class: className, ...attrs } = Astro.props;
+---
+<div id={id} class:list={['relative', className]} data-cetha-context-menu {...attrs}><div data-cetha-context-target><slot name="trigger" /></div><div class="fixed z-50 hidden min-w-48 rounded-cetha-md border border-cetha-line bg-cetha-raised p-1 shadow-cetha-md" role="menu" aria-label={label} data-cetha-context-content><slot /></div></div>
+<script>import { initContextMenus } from '../client/context-menu'; initContextMenus(); document.addEventListener('astro:page-load', () => initContextMenus());</script>

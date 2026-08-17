@@ -8,14 +8,19 @@ import {
   Badge,
   Breadcrumbs,
   Button,
+  ButtonGroup,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
   Checkbox,
+  Combobox,
+  ComboboxOption,
   Collapsible,
   CommandItem,
   CommandPalette,
+  ContextMenu,
+  ContextMenuItem,
   Dialog,
   Divider,
   Dropdown,
@@ -24,6 +29,7 @@ import {
   FileInput,
   Icon,
   Input,
+  InputGroup,
   Kbd,
   Link,
   Loader,
@@ -37,6 +43,7 @@ import {
   RadioGroup,
   Select,
   SelectableCard,
+  Sheet,
   Sidebar,
   Skeleton,
   Surface,
@@ -162,6 +169,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <label class="radio-option"><input type="radio" name="policy" value="manual" checked /> Manual approval</label>
               <label class="radio-option"><input type="radio" name="policy" value="automatic" /> Automatic</label>
             </RadioGroup>
+            <div class="compound-controls">
+              <Combobox id="branch" name="branch" label="Pilih cabang" placeholder="Cari cabang…"><ComboboxOption value="jakarta" label="Jakarta HQ">Jakarta HQ</ComboboxOption><ComboboxOption value="bandung" label="Bandung">Bandung</ComboboxOption><ComboboxOption value="surabaya" label="Surabaya">Surabaya</ComboboxOption></Combobox>
+              <InputGroup><span slot="start" class="input-affix">https://</span><Input aria-label="Workspace domain" value="arunika" /><span slot="end" class="input-affix">.cetha.app</span></InputGroup>
+              <ButtonGroup label="Tampilan laporan"><Button size="sm" variant="primary">Ringkas</Button><Button size="sm">Rinci</Button><Button size="sm">Audit</Button></ButtonGroup>
+            </div>
           </Surface>
         </section>
 
@@ -204,10 +216,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             <Button id="toast-trigger">Show toast</Button>
             <Popover id="filter-popover" align="end"><span slot="trigger" class="popover-trigger">Filter options</span><strong>Report period</strong><p class="popover-copy">Choose a period before exporting the report.</p><Select aria-label="Report period"><option>Last 30 days</option><option>This quarter</option></Select></Popover>
             <Tooltip id="export-tip" content="Download report as CSV"><Button aria-label="Export report" variant="ghost"><Icon name="arrowRight" size={16} /> Export</Button></Tooltip>
+            <Button data-cetha-dialog-open="filter-sheet">Open sheet</Button>
           </div>
           <div class="demo disclosure-demo">
             <Accordion label="Account questions"><AccordionItem title="Can I change my plan?" description="Plan and billing controls." open>Yes. Administrators can change the active plan from billing settings.</AccordionItem><AccordionItem title="How is usage calculated?">Usage is calculated from active users across all company branches.</AccordionItem></Accordion>
             <Collapsible label="Advanced options"><Surface bordered class="p-4">Configure tax rounding and invoice numbering.</Surface></Collapsible>
+            <ContextMenu id="invoice-context" label="Invoice actions"><div slot="trigger" class="context-target"><strong>INV-2048</strong><span>Right-click for actions</span></div><ContextMenuItem shortcut="Enter">Open invoice</ContextMenuItem><ContextMenuItem>Duplicate</ContextMenuItem><ContextMenuItem danger>Delete draft</ContextMenuItem></ContextMenu>
           </div>
         </section>
 
@@ -260,6 +274,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <Button slot="footer" data-cetha-dialog-close="saved" variant="primary">Save changes</Button>
   </Dialog>
   <ToastRegion label="Notifications" />
+  <Sheet id="filter-sheet" title="Filter laporan" description="Batasi data yang ditampilkan pada laporan." closeLabel="Close filters"><Field id="sheet-status" label="Status"><Select id="sheet-status"><option>Semua status</option><option>Lunas</option><option>Tertunda</option></Select></Field><Button slot="footer" data-cetha-dialog-close="apply" variant="primary">Apply filters</Button></Sheet>
   <CommandPalette id="erp-command" label="Cari di Cetha UI"><CommandItem label="Buka dashboard" keywords="beranda home" shortcut="G D"><Icon slot="icon" name="menu" size={17} /></CommandItem><CommandItem label="Pengaturan perusahaan" keywords="company settings"><Icon slot="icon" name="settings" size={17} /></CommandItem><CommandItem label="Cari pengguna" keywords="user team"><Icon slot="icon" name="search" size={17} /></CommandItem></CommandPalette>
 </BaseLayout>
 
@@ -319,6 +334,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .popover-trigger { display: inline-flex; height: 36px; align-items: center; border: 1px solid var(--cetha-line); border-radius: var(--radius-cetha-md); background: var(--cetha-surface); padding: 0 12px; color: var(--cetha-text-strong); font-size: 14px; font-weight: 500; cursor: pointer; }
   .popover-copy { margin: 6px 0 12px; color: var(--cetha-text-subtle); font-size: 12px; line-height: 1.6; }
   .disclosure-demo { display: grid; gap: 16px; }
+  .compound-controls { display: grid; gap: 12px; padding-top: 8px; }
+  .input-affix { display: inline-flex; height: 100%; align-items: center; background: var(--cetha-control); padding: 0 10px; color: var(--cetha-text-subtle); font-size: 12px; white-space: nowrap; }
+  .context-target { display: flex; min-height: 72px; align-items: center; justify-content: space-between; border: 1px dashed var(--cetha-line-strong); border-radius: var(--radius-cetha-md); padding: 16px; color: var(--cetha-text-strong); }
+  .context-target span { color: var(--cetha-text-subtle); font-size: 12px; font-weight: 400; }
   main { width: min(1240px, calc(100% - 48px)); margin: 0 auto; }
   .intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 48px; min-height: 510px; padding: 96px 0 72px; border-bottom: 1px solid var(--cetha-line); }
   .eyebrow { margin: 0 0 24px; color: var(--cetha-brand-text); font-size: 11px; font-weight: 600; text-transform: uppercase; }

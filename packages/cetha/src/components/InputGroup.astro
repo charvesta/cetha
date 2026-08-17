@@ -1,0 +1,11 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+interface Props extends HTMLAttributes<'div'> { invalid?: boolean; disabled?: boolean; }
+const { invalid = false, disabled = false, class: className, ...attrs } = Astro.props;
+---
+<div class:list={[
+  'flex h-9 w-full items-center overflow-hidden rounded-cetha-md border bg-cetha-surface transition-colors focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-[var(--cetha-focus)] [&>input]:h-full [&>input]:min-w-0 [&>input]:flex-1 [&>input]:rounded-none [&>input]:border-0 [&>input]:outline-none [&>input]:focus-visible:outline-none',
+  invalid ? 'border-cetha-danger' : 'border-cetha-line hover:border-cetha-line-strong',
+  disabled && 'cursor-not-allowed bg-cetha-control opacity-60',
+  className,
+]} aria-invalid={invalid ? 'true' : undefined} data-cetha-input-group {...attrs}><slot name="start" /><slot /><slot name="end" /></div>

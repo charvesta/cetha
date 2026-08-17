@@ -124,6 +124,35 @@ test('supports native disclosure and contextual floating content', async ({ page
   await expect(page.getByRole('tooltip', { name: 'Download report as CSV' })).toBeVisible();
 });
 
+test('operates compound inputs, sheets, and context menus with keyboard support', async ({ page }) => {
+  const combobox = page.getByRole('combobox', { name: 'Pilih cabang' });
+  await combobox.fill('Band');
+  await expect(page.getByRole('option', { name: 'Bandung' })).toBeVisible();
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+  await expect(combobox).toHaveValue('Bandung');
+  await expect(page.locator('input[name="branch"]')).toHaveValue('bandung');
+
+  const sheetTrigger = page.getByRole('button', { name: 'Open sheet' });
+  await sheetTrigger.click();
+  const sheet = page.getByRole('dialog', { name: 'Filter laporan' });
+  await expect(sheet).toBeVisible();
+  await expect(page.locator('body')).toHaveCSS('overflow', 'hidden');
+  await page.getByRole('button', { name: 'Apply filters' }).click();
+  await expect(sheet).not.toBeVisible();
+  await expect(sheetTrigger).toBeFocused();
+
+  const contextTarget = page.locator('#invoice-context [data-cetha-context-target]');
+  await contextTarget.click({ button: 'right' });
+  await expect(page.getByRole('menu', { name: 'Invoice actions' })).toBeVisible();
+  await expect(page.getByRole('menuitem', { name: 'Open invoice' })).toBeFocused();
+  await page.keyboard.press('ArrowDown');
+  await expect(page.getByRole('menuitem', { name: 'Duplicate' })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('menu', { name: 'Invoice actions' })).toBeHidden();
+  await expect(contextTarget).toBeFocused();
+});
+
 test('switches tabs on click and moves the active visual state', async ({ page }) => {
   const general = page.getByRole('tab', { name: 'General' });
   const security = page.getByRole('tab', { name: 'Security' });
