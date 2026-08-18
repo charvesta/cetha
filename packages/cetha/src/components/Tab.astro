@@ -14,7 +14,7 @@ const { tabsId, value, active = false, class: className, ...attrs } = Astro.prop
   id={`${tabsId}-tab-${value}`}
   type="button"
   class:list={[
-    'cetha-focus -mb-px h-9 shrink-0 border-b-2 border-transparent px-3 text-sm font-medium text-cetha-text-subtle hover:text-cetha-text-strong aria-selected:border-cetha-brand aria-selected:text-cetha-brand-text',
+    'cetha-focus relative z-[1] my-0.5 flex h-8 shrink-0 appearance-none items-center whitespace-nowrap rounded-cetha-md border-0 bg-transparent px-2.5 text-sm font-medium text-cetha-text-subtle transition-[background-color,color,box-shadow] hover:text-cetha-text-strong aria-selected:bg-cetha-surface aria-selected:text-cetha-text-strong aria-selected:shadow-cetha-sm aria-selected:ring-1 aria-selected:ring-cetha-line',
     className,
   ]}
   role="tab"

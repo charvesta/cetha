@@ -109,16 +109,16 @@ describe('Cetha Astro components', () => {
   });
 
   test.each([
-    [Button, 'h-8', 'h-9', 'h-10'],
-    [Input, 'h-7', 'h-9', 'h-11'],
-    [Select, 'h-8', 'h-9', 'h-10'],
-  ] as const)('renders deterministic sm, md, and lg control sizes', async (Component, smClass, mdClass, lgClass) => {
+    [Button, 'h-[26px]', 'h-9', 'h-10', 'rounded-cetha-md'],
+    [Input, 'h-7', 'h-9', 'h-11', 'rounded-cetha-sm'],
+    [Select, 'h-8', 'h-9', 'h-10', 'rounded-cetha-sm'],
+  ] as const)('renders deterministic sm, md, and lg control sizes', async (Component, smClass, mdClass, lgClass, smRadius) => {
     const container = await AstroContainer.create();
     const small = await container.renderToString(Component, { props: { size: 'sm', 'aria-label': 'Small' }, slots: { default: 'Small' } });
     const medium = await container.renderToString(Component, { props: { 'aria-label': 'Default' }, slots: { default: 'Default' } });
     const large = await container.renderToString(Component, { props: { size: 'lg', 'aria-label': 'Large' }, slots: { default: 'Large' } });
     expect(small).toContain(smClass);
-    expect(small).toContain('rounded-cetha-sm');
+    expect(small).toContain(smRadius);
     expect(medium).toContain(mdClass);
     expect(medium).toContain('rounded-cetha-md');
     expect(large).toContain(lgClass);
@@ -198,8 +198,8 @@ describe('Cetha Astro components', () => {
       props: { tabsId: 'settings', value: 'security' },
       slots: { default: 'Security' },
     });
-    expect(html).toContain('aria-selected:border-cetha-brand');
-    expect(html).toContain('aria-selected:text-cetha-brand-text');
+    expect(html).toContain('aria-selected:bg-cetha-surface');
+    expect(html).toContain('aria-selected:text-cetha-text-strong');
   });
 
   test('renders configurable sidebar geometry and an optional native close action', async () => {

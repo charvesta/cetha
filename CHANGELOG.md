@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.8
+
+- Expanded Button with four density levels, square and circular shapes, refined
+  emphasis treatments, and additional outline and destructive variants.
+- Reworked Tabs as a compact segmented control with clearer active, inactive,
+  hover, focus, light, and dark states.
+- Unified the Sidebar close action with the shared icon-button foundation and
+  refreshed interaction tests and desktop/mobile visual baselines.
+
 ## 0.1.7
 
 - Refined the shared visual foundation with calmer neutral surfaces, softer

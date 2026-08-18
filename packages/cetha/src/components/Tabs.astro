@@ -11,7 +11,7 @@ const { id, value, label, class: className, ...attrs } = Astro.props;
 ---
 
 <div id={id} class:list={['min-w-0', className]} data-cetha-tabs data-value={value} {...attrs}>
-  <div class="flex gap-1 overflow-x-auto border-b border-cetha-line" role="tablist" aria-label={label}>
+  <div class="flex h-9 w-max max-w-full gap-0.5 overflow-x-auto rounded-cetha-lg bg-cetha-control px-0.5 ring-1 ring-cetha-line" role="tablist" aria-label={label}>
     <slot name="list" />
   </div>
   <div class="pt-5"><slot /></div>

@@ -161,7 +161,7 @@ test('switches tabs on click and moves the active visual state', async ({ page }
   await expect(general).toHaveAttribute('aria-selected', 'false');
   await expect(page.getByRole('tabpanel', { name: 'Security' })).toBeVisible();
   await expect(page.getByRole('tabpanel', { name: 'General' })).toBeHidden();
-  await expect(security).toHaveCSS('border-bottom-color', 'rgb(59, 102, 245)');
+  await expect(security).toHaveCSS('background-color', 'rgb(255, 255, 255)');
 });
 
 test('removes breadcrumb markers and gives table cells horizontal padding', async ({ page }) => {
@@ -233,13 +233,13 @@ test('announces toast state after entering', async ({ page }) => {
 });
 
 test('uses compact control density and switches the scoped color mode', async ({ page }) => {
-  await expect(page.getByRole('button', { name: 'Small' })).toHaveCSS('height', '32px');
+  await expect(page.getByRole('button', { name: 'Small' })).toHaveCSS('height', '26px');
   await expect(page.getByRole('button', { name: 'Default' })).toHaveCSS('height', '36px');
   await expect(page.getByRole('button', { name: 'Large' })).toHaveCSS('height', '40px');
   await expect(page.getByLabel('Small input')).toHaveCSS('height', '28px');
   await expect(page.getByLabel('Default input')).toHaveCSS('height', '36px');
   await expect(page.getByLabel('Large input')).toHaveCSS('height', '44px');
-  await expect(page.getByRole('button', { name: 'Small' })).toHaveCSS('border-radius', '4px');
+  await expect(page.getByRole('button', { name: 'Small' })).toHaveCSS('border-radius', '8px');
   await expect(page.getByLabel('Small input')).toHaveCSS('border-radius', '4px');
 
   const loading = page.getByRole('button', { name: 'Saving' });
